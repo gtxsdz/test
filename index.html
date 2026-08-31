@@ -161,8 +161,44 @@
 
     const planBody = document.getElementById('planBody');
 
+    // canonicalize class key based on provided cls or subject text
+    function canonicalClass(info){
+      if(!info) return 'empty';
+      if(info.cls && info.cls !== '') return info.cls;
+      const s = (info.sub||'').toLowerCase();
+      if(s.includes('matem')) return 'matematyka';
+      if(s.includes('polsk')) return 'polski';
+      if(s.includes('ang')) return 'angielski';
+      if(s.includes('przyrod')||s.includes('biolog')||s.includes('geogr')) return 'przyroda';
+      if(s.includes('hist')) return 'historia';
+      if(s.includes('techn')) return 'technika';
+      if(s.includes('plasty')) return 'plastyka';
+      if(s.includes('muzyk')) return 'muzyka';
+      if(s.includes('inf')) return 'informatyka';
+      if(s.includes('wf')) return 'wf';
+      if(s.includes('relig')||s.includes('edu')) return 'religia';
+      return 'subject';
+    }
+
     function renderWeek(weekData){
       planBody.innerHTML = '';
+
+      // icon map keyed by canonical class
+      const iconMap = {
+        matematyka:'➗',
+        polski:'📚',
+        angielski:'🗣️',
+        przyroda:'🌿',
+        historia:'🏺',
+        wf:'🏃',
+        technika:'🛠️',
+        plastyka:'🎨',
+        informatyka:'💻',
+        muzyka:'🎵',
+        religia:'✝️',
+        subject:'📘'
+      };
+
       for(let i=0;i<weekData.length;i++){
         const tr = document.createElement('tr');
         const tdTime = document.createElement('td'); tdTime.className='timecell'; tdTime.innerHTML = '<div>'+(i+1)+'</div><div style="font-size:11px;color:#5b5b5b;margin-top:4px">'+times[i]+'</div>';
@@ -173,10 +209,10 @@
           if(!info || info.cls==='empty' || info.sub==='—' || info.sub===''){
             const empty = document.createElement('div'); empty.className='empty'; empty.textContent='—'; td.appendChild(empty);
           } else {
-            const tile = document.createElement('div'); tile.className='tile '+info.cls;
+            const clsKey = canonicalClass(info);
+            const tile = document.createElement('div'); tile.className='tile '+clsKey;
             const icon = document.createElement('div'); icon.className='icon';
-            const iconMap = {matematyka:'➗',polski:'📚',angielski:'🇬🇧',przyroda:'🌿',historia:'🏺',wf:'🏃',technika:'🛠️',plastyka:'🎨',informatyka:'💻',muzyka:'🎵',religia:'✝️'};
-            icon.textContent = iconMap[info.cls] || '📘';
+            icon.textContent = iconMap[clsKey] || iconMap['subject'];
             const text = document.createElement('div'); text.className='text'; text.textContent = info.sub;
             const room = document.createElement('div'); room.className='room'; room.textContent = info.room ? ('s. '+info.room) : '';
             tile.appendChild(icon); tile.appendChild(text); tile.appendChild(room);
