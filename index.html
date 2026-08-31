@@ -40,6 +40,8 @@
     .matematyka{background:linear-gradient(135deg,#6ef08a,#2fb45a)}
     .polski{background:linear-gradient(135deg,#ff8aa1,#ff5c8a)}
     .angielski{background:linear-gradient(135deg,#8fd4ff,#3aa0ff)}
+    .biologia{background:linear-gradient(135deg,#b3ffd9,#2ed09a)}
+    .geografia{background:linear-gradient(135deg,#ffd9a8,#ff9b3c)}
     .przyroda{background:linear-gradient(135deg,#b3ffdf,#37d39f)}
     .historia{background:linear-gradient(135deg,#ffd27a,#ff9f5c)}
     .wf{background:linear-gradient(135deg,#8ecbff,#4aa8ff)}
@@ -142,8 +144,8 @@
     // data (from /plan)
     const weekA = [
       [ {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'matematyka',room:'243',cls:'matematyka'} ],
-      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'polski'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'przyroda'}, {sub:'j. polski',room:'125',cls:'polski'} ],
-      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. ang.',room:'204',cls:'angielski'}, {sub:'biologia',room:'203',cls:'przyroda'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf / wf',room:'—',cls:'wf'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'polski'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'geografia'}, {sub:'j. polski',room:'125',cls:'polski'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. ang.',room:'204',cls:'angielski'}, {sub:'biologia',room:'203',cls:'biologia'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf / wf',room:'—',cls:'wf'} ],
       [ {sub:'technika',room:'102',cls:'technika'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'historia',room:'227',cls:'historia'}, {sub:'basen / wf',room:'—',cls:'wf'}, {sub:'j. ang.',room:'204',cls:'angielski'} ],
       [ {sub:'wf / x',room:'—',cls:'wf'}, {sub:'plastyka',room:'125',cls:'plastyka'}, {sub:'j. ang.',room:'204',cls:'angielski'}, {sub:'historia',room:'236',cls:'historia'}, {sub:'muzyka',room:'50',cls:'muzyka'} ],
       [ {sub:'—',room:'',cls:'empty'}, {sub:'edu. zdrow.',room:'114',cls:'religia'}, {sub:'inf / x',room:'103',cls:'informatyka'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'religia',room:'141',cls:'religia'} ]
@@ -151,8 +153,8 @@
 
     const weekB = [
       [ {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'matematyka',room:'243',cls:'matematyka'} ],
-      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'polski'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'przyroda'}, {sub:'j. polski',room:'125',cls:'polski'} ],
-      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. ang.',room:'131/204',cls:'angielski'}, {sub:'biologia',room:'203',cls:'przyroda'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf / wf',room:'—',cls:'wf'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'polski'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'geografia'}, {sub:'j. polski',room:'125',cls:'polski'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. ang.',room:'131/204',cls:'angielski'}, {sub:'biologia',room:'203',cls:'biologia'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf / wf',room:'—',cls:'wf'} ],
       [ {sub:'technika',room:'102',cls:'technika'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'historia',room:'227',cls:'historia'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'j. ang.',room:'131/204',cls:'angielski'} ],
       [ {sub:'—',room:'',cls:'empty'}, {sub:'plastyka',room:'125',cls:'plastyka'}, {sub:'j. ang.',room:'131/204',cls:'angielski'}, {sub:'historia',room:'236',cls:'historia'}, {sub:'muzyka',room:'50',cls:'muzyka'} ],
       [ {sub:'—',room:'',cls:'empty'}, {sub:'edu. zdrow.',room:'114',cls:'religia'}, {sub:'—',room:'',cls:'empty'}, {sub:'wf / x',room:'—',cls:'wf'}, {sub:'religia',room:'141',cls:'religia'} ]
@@ -160,22 +162,90 @@
 
     const planBody = document.getElementById('planBody');
 
+    // precise alias mapping to avoid collisions
+    const subjectAliases = {
+      matematyka: ['matematyka','mat','matem','matem.','mat.'],
+      polski: ['j polski','j. polski','polski','pol.'],
+      angielski: ['j angielski','j. ang','j. angielski','j. ang.','angielski','ang'],
+      biologia: ['biologia','biol'],
+      geografia: ['geografia','geogr','geo'],
+      przyroda: ['przyroda'],
+      historia: ['historia','hist'],
+      wf: ['w-f','wf','wychowanie','wychowanie fizyczne','wychowanie fiz.'],
+      technika: ['technika','tech'],
+      plastyka: ['plastyka','plastyczne','plasty'],
+      informatyka: ['informatyka','inf','info','it'],
+      muzyka: ['muzyka','muzyk'],
+      religia: ['religia','rel','edu zdrow','edu. zdrow','eduzdrowie']
+    };
+
+    const aliasToKey = {};
+    for(const [key, aliases] of Object.entries(subjectAliases)){
+      aliases.forEach(a=> aliasToKey[a] = key);
+    }
+
+    function normalizeSubjectText(s){
+      if(!s) return '';
+      return s.toString()
+        .toLowerCase()
+        .replace(/[\.]/g,'')
+        .replace(/[\/,&+]/g,' ')
+        .replace(/\s+/g,' ')
+        .trim();
+    }
+
     function canonicalClass(info){
       if(!info) return 'empty';
       if(info.cls && info.cls !== '') return info.cls;
-      const s = (info.sub||'').toLowerCase();
-      if(s.includes('matem')) return 'matematyka';
-      if(s.includes('polsk')) return 'polski';
-      if(s.includes('ang')) return 'angielski';
-      if(s.includes('przyrod')||s.includes('biolog')||s.includes('geogr')) return 'przyroda';
-      if(s.includes('hist')) return 'historia';
-      if(s.includes('techn')) return 'technika';
-      if(s.includes('plasty')) return 'plastyka';
-      if(s.includes('muzyk')) return 'muzyka';
-      if(s.includes('inf')) return 'informatyka';
-      if(s.includes('wf')) return 'wf';
-      if(s.includes('relig')||s.includes('edu')) return 'religia';
+      const raw = normalizeSubjectText(info.sub || '');
+      if(!raw) return 'empty';
+      const tokens = raw.split(' ');
+      // priority rules
+      if(tokens.includes('wf') || tokens.includes('wychowanie') || tokens.includes('w-f')) return 'wf';
+
+      // check tokens directly
+      for(const tok of tokens){
+        if(aliasToKey[tok]) return aliasToKey[tok];
+      }
+
+      // substring fallback (catch longer names)
+      for(const [alias, key] of Object.entries(aliasToKey)){
+        if(alias && raw.indexOf(alias) !== -1) return key;
+      }
+
       return 'subject';
+    }
+
+    // diagnostic report to console to find collisions
+    function reportSubjects(weeks = [weekA, weekB]){
+      const seen = new Map();
+      const collisions = new Map();
+      weeks.forEach(week=>{
+        week.forEach(row=>{
+          row.forEach(cell=>{
+            if(!cell || !cell.sub) return;
+            const raw = normalizeSubjectText(cell.sub);
+            const canon = canonicalClass(cell);
+            seen.set(raw, canon);
+            if(!collisions.has(canon)) collisions.set(canon, new Set());
+            collisions.get(canon).add(raw);
+          });
+        });
+      });
+
+      console.group('Plan subjects report');
+      console.log('Unique raw strings -> canonical key:');
+      for(const [raw, canon] of seen.entries()){
+        console.log(`"${raw}"  ->  ${canon}`);
+      }
+      console.log('Collisions (canonical key -> raw strings mapped to it):');
+      for(const [canon, set] of collisions.entries()){
+        if(set.size > 1){
+          console.warn(canon, Array.from(set));
+        }
+      }
+      console.groupEnd();
+      return {seen, collisions};
     }
 
     function renderWeek(weekData){
@@ -185,6 +255,8 @@
         matematyka:'➗',
         polski:'📚',
         angielski:'🗣️',
+        biologia:'🧪',
+        geografia:'🗺️',
         przyroda:'🌿',
         historia:'🏺',
         wf:'🏃',
@@ -198,8 +270,6 @@
 
       for(let i=0;i<weekData.length;i++){
         const tr = document.createElement('tr');
-
-        // left column: show start on first line with dash and end on second line
         const tdTime = document.createElement('td');
         tdTime.className='timecell';
         tdTime.innerHTML = '<div style="font-size:13px;font-weight:900">'+times[i].start+' -</div><div style="font-size:12px;color:#5b5b5b;margin-top:4px">'+times[i].end+'</div>';
@@ -208,7 +278,6 @@
         for(let d=0;d<5;d++){
           const td = document.createElement('td');
           const info = weekData[i][d];
-
           if(!info || info.cls==='empty' || info.sub==='—' || info.sub===''){
             const empty = document.createElement('div'); empty.className='empty'; empty.textContent='—'; td.appendChild(empty);
           } else {
@@ -226,10 +295,16 @@
       }
     }
 
+    // run diagnostic report on load
+    document.addEventListener('DOMContentLoaded', ()=>{
+      reportSubjects([weekA, weekB]);
+      renderWeek(weekA);
+      document.getElementById('weekA').style.opacity = 1;
+      document.getElementById('weekB').style.opacity = 0.8;
+    });
+
     document.getElementById('weekA').addEventListener('click',()=>{renderWeek(weekA);document.getElementById('weekA').style.opacity=1;document.getElementById('weekB').style.opacity=0.8});
     document.getElementById('weekB').addEventListener('click',()=>{renderWeek(weekB);document.getElementById('weekB').style.opacity=1;document.getElementById('weekA').style.opacity=0.8});
-
-    renderWeek(weekA);
   </script>
 </body>
 </html>
