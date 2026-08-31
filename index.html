@@ -3,43 +3,45 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Plan lekcji — Klasa 5a (kolorowy)</title>
+  <title>Plan lekcji — Klasa 5a (kolorowy, poprawiony)</title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
   <style>
     @page { size: A4 landscape; margin: 8mm; }
     *{box-sizing:border-box}
-    html,body{height:100%;background:linear-gradient(180deg,#fffaf0,#e8f7ff);font-family:'Baloo 2', 'Patrick Hand', system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;padding:14px}
+    html,body{height:100%;background:linear-gradient(180deg,#fffaf0,#e8f7ff);font-family:'Baloo 2', 'Patrick Hand', system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;padding:10px}
 
-    /* big playful card */
-    .card{max-width:1240px;margin:0 auto;background:linear-gradient(180deg,#fff,#fffbf5);border-radius:22px;padding:18px 18px 24px;box-shadow:0 18px 40px rgba(30,50,80,0.12);border:4px solid #ffdca8;position:relative;overflow:hidden}
+    /* card (narrower vertical spacing) */
+    .card{max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#fff,#fff9f2);border-radius:18px;padding:12px 12px 14px;box-shadow:0 14px 30px rgba(30,50,80,0.09);border:3px solid #ffdca8;position:relative;overflow:hidden}
 
-    /* confetti */
-    .confetti{position:absolute;inset:0;pointer-events:none;mix-blend-mode:normal}
+    /* background decorative layer behind content (lower z-index) */
+    .decor-layer{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.95}
+    /* content sits above decorations */
+    .content{position:relative;z-index:2}
 
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
     .logo{display:flex;align-items:center;gap:10px}
-    .logo .badge{width:86px;height:86px;border-radius:18px;background:linear-gradient(135deg,#ffcae3,#ffd37a);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 8px 18px rgba(0,0,0,0.08);border:3px solid rgba(255,255,255,0.6)}
-    h1{margin:0;font-size:30px;color:#2c3e50;text-shadow:1px 1px 0 #fff}
-    .subtitle{font-size:14px;color:#6b6b6b}
+    .logo .badge{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,#ffcae3,#ffd37a);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 6px 12px rgba(0,0,0,0.06);border:3px solid rgba(255,255,255,0.6)}
+    h1{margin:0;font-size:22px;color:#2c3e50;text-shadow:1px 1px 0 #fff}
+    .subtitle{font-size:12px;color:#6b6b6b}
 
     .controls{display:flex;align-items:center;gap:8px}
-    .btn{background:#ff8aa1;color:white;padding:8px 12px;border-radius:14px;border:none;font-weight:800;cursor:pointer;box-shadow:0 6px 14px rgba(255,138,161,0.18)}
-    .btn.secondary{background:transparent;color:#ff8aa1;border:3px solid #ff8aa1}
-    .print-btn{background:#4bb5ff;color:white;padding:8px 12px;border-radius:14px;border:none;cursor:pointer}
+    .btn{background:#ff8aa1;color:white;padding:6px 10px;border-radius:12px;border:none;font-weight:800;cursor:pointer;box-shadow:0 6px 12px rgba(255,138,161,0.14);font-size:13px}
+    .btn.secondary{background:transparent;color:#ff8aa1;border:2px solid #ff8aa1}
+    .print-btn{background:#4bb5ff;color:white;padding:6px 10px;border-radius:12px;border:none;cursor:pointer}
 
-    table{width:100%;border-collapse:separate;border-spacing:10px;margin-top:12px}
-    thead th{padding:12px;border-radius:12px;background:linear-gradient(90deg,#ffefb3,#ffd2f0);color:#3a2f2f;font-weight:900;font-size:15px;border:3px solid rgba(0,0,0,0.03)}
-    th.time{width:90px}
+    table{width:100%;border-collapse:separate;border-spacing:8px;margin-top:8px;font-size:14px}
+    thead th{padding:10px;border-radius:10px;background:linear-gradient(90deg,#ffefb3,#ffd2f0);color:#3a2f2f;font-weight:900;font-size:13px;border:2px solid rgba(0,0,0,0.03)}
+    th.time{width:72px}
 
-    tbody td{padding:10px;vertical-align:middle}
-    .timecell{font-weight:900;color:#2b3b4a;background:linear-gradient(180deg,#fff,#fff6e6);border-radius:12px;border:3px solid #ffe0aa;padding:10px;text-align:center}
+    tbody td{padding:6px 6px;vertical-align:middle}
+    .timecell{font-weight:900;color:#2b3b4a;background:linear-gradient(180deg,#fff,#fff6e6);border-radius:10px;border:2px solid #ffe0aa;padding:8px;text-align:center;width:72px}
 
-    /* playful tiles */
-    .tile{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 10px;border-radius:16px;min-height:72px;color:#fff;font-weight:800;font-size:15px;box-shadow:0 10px 20px rgba(60,80,110,0.08);position:relative}
-    .tile .icon{font-size:26px;margin-bottom:6px;text-shadow:0 2px 0 rgba(0,0,0,0.08)}
-    .tile .room{font-size:12px;color:rgba(255,255,255,0.9);margin-top:6px;background:rgba(0,0,0,0.08);padding:4px 8px;border-radius:8px}
+    /* compact tiles */
+    .tile{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 8px;border-radius:12px;min-height:56px;color:#fff;font-weight:800;font-size:14px;box-shadow:0 8px 16px rgba(60,80,110,0.06);position:relative}
+    .tile .icon{font-size:20px;margin-bottom:4px;text-shadow:0 1px 0 rgba(0,0,0,0.06)}
+    .tile .room{font-size:11px;color:rgba(255,255,255,0.95);margin-top:6px;background:rgba(0,0,0,0.06);padding:3px 6px;border-radius:8px}
 
-    /* subject styles — extra vibrant */
+    /* subject styles (vibrant but compact) */
     .matematyka{background:linear-gradient(135deg,#6ef08a,#2fb45a)}
     .polski{background:linear-gradient(135deg,#ff8aa1,#ff5c8a)}
     .angielski{background:linear-gradient(135deg,#8fd4ff,#3aa0ff)}
@@ -51,82 +53,94 @@
     .informatyka{background:linear-gradient(135deg,#88f5ff,#4adbf0)}
     .muzyka{background:linear-gradient(135deg,#ffd6ff,#ff9bff)}
     .religia{background:linear-gradient(135deg,#9ec6ff,#7aa6ff)}
-    .empty{background:transparent;color:#9aa0b0;border-radius:12px;padding:8px;border:2px dashed rgba(0,0,0,0.06);min-height:72px;display:flex;align-items:center;justify-content:center}
+    .empty{background:transparent;color:#9aa0b0;border-radius:10px;padding:6px;border:2px dashed rgba(0,0,0,0.06);min-height:56px;display:flex;align-items:center;justify-content:center}
 
-    /* stickers around */
-    .sticker{position:absolute;z-index:5;pointer-events:none}
-    .sticker.star{right:22px;top:34px;width:64px;transform:rotate(-8deg)}
-    .sticker.butterfly{left:18px;top:90px;width:90px}
-    .sticker.cloud{left:60px;bottom:30px;width:160px;opacity:0.9}
+    /* stickers repositioned behind content (lower z-index) and reduced size */
+    .sticker{position:absolute;z-index:1;pointer-events:none;opacity:0.85}
+    .sticker.star{right:12px;top:18px;width:48px;transform:rotate(-8deg)}
+    .sticker.butterfly{left:12px;top:70px;width:64px}
+    .sticker.cloud{left:40px;bottom:10px;width:120px;opacity:0.9}
 
-    footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;color:#5a5a5a}
+    footer{margin-top:10px;display:flex;justify-content:space-between;align-items:center;color:#5a5a5a;font-size:13px}
 
     @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:#fff} .btn,.controls{display:none}}
-    @media (max-width:900px){.tile{min-height:60px}.logo .badge{width:64px;height:64px;font-size:28px}}
+    @media (max-width:900px){.tile{min-height:50px}.logo .badge{width:56px;height:56px;font-size:24px}h1{font-size:18px}}
   </style>
 </head>
 <body>
-  <div class="card" role="main">
-    <svg class="confetti" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <g fill-opacity="0.95">
-        <rect x="5" y="6" width="2" height="2" fill="#ff8aa1"/>
-        <rect x="15" y="18" width="1.6" height="1.6" fill="#ffd37a"/>
-        <rect x="26" y="8" width="1.8" height="1.8" fill="#8fd4ff"/>
-        <rect x="40" y="20" width="2.2" height="2.2" fill="#6ef08a"/>
-        <rect x="70" y="12" width="1.8" height="1.8" fill="#cfa3ff"/>
-        <rect x="85" y="22" width="2" height="2" fill="#ffd6ff"/>
-        <circle cx="60" cy="6" r="1.4" fill="#ff8aa1"/>
-        <circle cx="90" cy="36" r="1.8" fill="#8fd4ff"/>
-      </g>
-    </svg>
+  <div class="card">
+    <!-- decorative layer (SVG confetti + stickers) placed behind content to avoid overlap -->
+    <div class="decor-layer" aria-hidden>
+      <svg class="confetti" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;position:absolute;inset:0;z-index:0;opacity:0.9">
+        <g fill-opacity="0.95">
+          <rect x="5" y="6" width="2" height="2" fill="#ff8aa1"/>
+          <rect x="15" y="18" width="1.6" height="1.6" fill="#ffd37a"/>
+          <rect x="26" y="8" width="1.8" height="1.8" fill="#8fd4ff"/>
+          <rect x="40" y="20" width="2.2" height="2.2" fill="#6ef08a"/>
+          <rect x="70" y="12" width="1.8" height="1.8" fill="#cfa3ff"/>
+          <rect x="85" y="22" width="2" height="2" fill="#ffd6ff"/>
+          <circle cx="60" cy="6" r="1.4" fill="#ff8aa1"/>
+          <circle cx="90" cy="36" r="1.8" fill="#8fd4ff"/>
+        </g>
+      </svg>
 
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><text x='8' y='72' font-size='64' font-family="Baloo 2">🎒</text></svg>" alt="plecak" class="sticker butterfly"/>
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><text x='10' y='50' font-size='48'>⭐</text></svg>" alt="gwiazdka" class="sticker star"/>
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='100'><text x='10' y='40' font-size='36'>☁️ ☁️</text></svg>" alt="chmury" class="sticker cloud"/>
+      <!-- simpler embedded SVG stickers (behind content) -->
+      <svg class="sticker star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="position:absolute;right:12px;top:18px;z-index:1;pointer-events:none;opacity:0.95">
+        <polygon points="32,3 39,24 61,24 43,37 49,59 32,46 15,59 21,37 3,24 25,24" fill="#ffd36b" stroke="#ffb84a" stroke-width="1"/>
+      </svg>
+      <svg class="sticker butterfly" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:12px;top:70px;z-index:1;pointer-events:none;opacity:0.95">
+        <g fill="#ff9ec2"><ellipse cx="30" cy="40" rx="18" ry="12"/><ellipse cx="60" cy="40" rx="18" ry="12"/></g>
+      </svg>
+      <svg class="sticker cloud" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:40px;bottom:10px;z-index:1;pointer-events:none;opacity:0.8">
+        <g fill="#fff"><ellipse cx="40" cy="30" rx="28" ry="18"/><ellipse cx="70" cy="26" rx="34" ry="20"/><ellipse cx="100" cy="30" rx="28" ry="18"/></g>
+      </svg>
+    </div>
 
-    <header>
-      <div class="logo">
-        <div class="badge">5A</div>
-        <div>
-          <h1>Wesoły plan lekcji — Klasa 5a</h1>
-          <div class="subtitle">Kolorowo i ozdobnie — tydzień A / B (źródło: projekt /plan)</div>
+    <div class="content">
+      <header>
+        <div class="logo">
+          <div class="badge">5A</div>
+          <div>
+            <h1>Wesoły plan lekcji — Klasa 5a</h1>
+            <div class="subtitle">Kolorowo i ozdobnie — tydzień A / B (źródło: projekt /plan)</div>
+          </div>
         </div>
-      </div>
 
-      <div class="controls">
-        <button id="weekA" class="btn">Tydzień A</button>
-        <button id="weekB" class="btn secondary">Tydzień B</button>
-        <button class="print-btn" onclick="window.print()">Drukuj</button>
-      </div>
-    </header>
+        <div class="controls">
+          <button id="weekA" class="btn">Tydzień A</button>
+          <button id="weekB" class="btn secondary">Tydzień B</button>
+          <button class="print-btn" onclick="window.print()">Drukuj</button>
+        </div>
+      </header>
 
-    <section aria-label="Plan lekcji">
-      <table id="planTable">
-        <thead>
-          <tr>
-            <th class="time">Lekcja / godz.</th>
-            <th>Poniedziałek</th>
-            <th>Wtorek</th>
-            <th>Środa</th>
-            <th>Czwartek</th>
-            <th>Piątek</th>
-          </tr>
-        </thead>
-        <tbody id="planBody"></tbody>
-      </table>
-    </section>
+      <section aria-label="Plan lekcji">
+        <table id="planTable">
+          <thead>
+            <tr>
+              <th class="time">Lekcja / godz.</th>
+              <th>Poniedziałek</th>
+              <th>Wtorek</th>
+              <th>Środa</th>
+              <th>Czwartek</th>
+              <th>Piątek</th>
+            </tr>
+          </thead>
+          <tbody id="planBody"></tbody>
+        </table>
+      </section>
 
-    <footer>
-      <div>Miłego dnia! 🌞 — Przyjazny plan dla młodszych uczniów</div>
-      <div style="font-size:12px;color:#777">Aktualne: sierpień 2026</div>
-    </footer>
+      <footer>
+        <div>Miłego dnia! 🌞 — Przyjazny plan dla młodszych uczniów</div>
+        <div style="font-size:12px;color:#777">Aktualne: sierpień 2026</div>
+      </footer>
+    </div>
   </div>
 
   <script>
-    // czasy
+    // compact times
     const times = ['8:00–8:45','8:55–9:40','9:50–10:35','10:45–11:30','11:45–12:30','12:50–13:35'];
 
-    // dane zgodne z /plan (skrócone nazwy i sale)
+    // data (from /plan)
     const weekA = [
       [ {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'matematyka',room:'243',cls:'matematyka'} ],
       [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'polski'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'przyroda'}, {sub:'j. polski',room:'125',cls:'polski'} ],
@@ -151,7 +165,7 @@
       planBody.innerHTML = '';
       for(let i=0;i<weekData.length;i++){
         const tr = document.createElement('tr');
-        const tdTime = document.createElement('td'); tdTime.className='timecell'; tdTime.innerHTML = '<div>'+ (i+1) +'</div><div style="font-size:12px;color:#5b5b5b;margin-top:6px">'+times[i]+'</div>';
+        const tdTime = document.createElement('td'); tdTime.className='timecell'; tdTime.innerHTML = '<div>'+(i+1)+'</div><div style="font-size:11px;color:#5b5b5b;margin-top:4px">'+times[i]+'</div>';
         tr.appendChild(tdTime);
         for(let d=0;d<5;d++){
           const td = document.createElement('td');
@@ -161,7 +175,6 @@
           } else {
             const tile = document.createElement('div'); tile.className='tile '+info.cls;
             const icon = document.createElement('div'); icon.className='icon';
-            // icon selection simple
             const iconMap = {matematyka:'➗',polski:'📚',angielski:'🇬🇧',przyroda:'🌿',historia:'🏺',wf:'🏃',technika:'🛠️',plastyka:'🎨',informatyka:'💻',muzyka:'🎵',religia:'✝️'};
             icon.textContent = iconMap[info.cls] || '📘';
             const text = document.createElement('div'); text.className='text'; text.textContent = info.sub;
@@ -175,8 +188,8 @@
       }
     }
 
-    document.getElementById('weekA').addEventListener('click',()=>{renderWeek(weekA);document.getElementById('weekA').style.opacity=1;document.getElementById('weekB').style.opacity=0.7});
-    document.getElementById('weekB').addEventListener('click',()=>{renderWeek(weekB);document.getElementById('weekB').style.opacity=1;document.getElementById('weekA').style.opacity=0.7});
+    document.getElementById('weekA').addEventListener('click',()=>{renderWeek(weekA);document.getElementById('weekA').style.opacity=1;document.getElementById('weekB').style.opacity=0.8});
+    document.getElementById('weekB').addEventListener('click',()=>{renderWeek(weekB);document.getElementById('weekB').style.opacity=1;document.getElementById('weekA').style.opacity=0.8});
 
     // initial
     renderWeek(weekA);
