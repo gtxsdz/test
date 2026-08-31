@@ -3,87 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Plan lekcji - Klasa 5a (2026/2027)</title>
+  <title>Plan lekcji - Klasa 5a (2026/2027) — Tydzień A/B</title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Landscape / print setup */
     @page { size: A4 landscape; margin: 10mm; }
     html,body{height:100%;}
-    body{
-      font-family: 'Nunito', 'Baloo 2', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(135deg,#FFF7E6 0%, #E8F7FF 50%, #F9E8FF 100%);
-      margin:0; padding:20px; box-sizing:border-box; color:#333;
-    }
-    .card{
-      max-width:1200px; margin:0 auto; background:rgba(255,255,255,0.9); border-radius:18px; padding:18px; box-shadow:0 8px 24px rgba(0,0,0,0.08);
-      display:flex; flex-direction:column; gap:12px;
-    }
-    header{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .title{
-      display:flex; align-items:center; gap:12px;
-    }
-    .title h1{font-family:'Baloo 2', cursive; margin:0; font-size:28px; color:#275A8E}
-    .subtitle{font-size:14px; color:#6b6b6b}
-    .decor{
-      font-size:40px;
-    }
-    /* Table styling */
-    table{width:100%; border-collapse:separate; border-spacing:8px;}
-    th, td{padding:12px; text-align:center; vertical-align:middle; border-radius:10px}
-    thead th{background:linear-gradient(90deg,#FFD27A,#FFB3C6); color:#1b2440; font-weight:700; font-size:16px}
-    tbody td{background:rgba(255,255,255,0.9); border:2px dashed rgba(0,0,0,0.04);}
-    .lesson-number{font-weight:700; color:#275A8E}
-    .subject{
-      display:inline-block; padding:6px 8px; border-radius:999px; color:white; font-weight:700; font-size:13px; min-width:88px;
-    }
-    .room{font-size:12px;color:#444;margin-top:6px;background:rgba(0,0,0,0.04);padding:4px 8px;border-radius:8px;display:inline-block}
-    /* Color map for subjects */
-    .polski{background:#F26B6B}
-    .matematyka{background:#4CAF50}
-    .przyroda{background:#7BCBC0}
-    .historia{background:#F6B05E}
-    .wf{background:#6FA8DC}
-    .technika{background:#9B59B6}
-    .muzyka{background:#F39C12}
-    .plastyka{background:#E67E22}
-    .religia{background:#95A5A6}
-    .informatyka{background:#2ECC71}
-    .angielski{background:#3498DB}
-    .empty{color:#999}
-
-    /* Cute footer */
-    footer{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:13px; color:#666}
-    .print-btn{background:#275A8E; color:white; padding:8px 12px; border-radius:10px; text-decoration:none;}
-
-    /* Responsive for screen */
-    @media (max-width:900px){
-      .card{padding:12px}
-      table{font-size:13px}
-    }
+    body{font-family: 'Nunito', 'Baloo 2', system-ui, -apple-system, "Segoe UI", Roboto, Arial; background:linear-gradient(135deg,#FFF7E6 0%, #E8F7FF 50%, #F9E8FF 100%);margin:0;padding:18px;color:#333}
+    .card{max-width:1200px;margin:0 auto;background:rgba(255,255,255,0.95);border-radius:18px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+    header{display:flex;align-items:center;justify-content:space-between}
+    h1{font-family:'Baloo 2',cursive;margin:0;font-size:26px;color:#275A8E}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:#275A8E;color:white;padding:8px 12px;border-radius:10px;text-decoration:none;cursor:pointer;border:none}
+    .btn.outline{background:transparent;color:#275A8E;border:2px solid #275A8E}
+    .week-label{font-weight:700;color:#444}
+    table{width:100%;border-collapse:separate;border-spacing:8px;margin-top:12px}
+    th,td{padding:10px;text-align:center;vertical-align:middle;border-radius:10px}
+    thead th{background:linear-gradient(90deg,#FFD27A,#FFB3C6);color:#1b2440;font-weight:700}
+    tbody td{background:rgba(255,255,255,0.95);border:2px dashed rgba(0,0,0,0.04)}
+    .lesson-number{font-weight:700;color:#275A8E;width:80px}
+    .subject{display:inline-block;padding:6px 10px;border-radius:999px;color:white;font-weight:700;font-size:13px}
+    .room{display:block;margin-top:6px;font-size:12px;color:#444}
+    .polski{background:#F26B6B}.matematyka{background:#4CAF50}.przyroda{background:#7BCBC0}.historia{background:#F6B05E}.wf{background:#6FA8DC}
+    .technika{background:#9B59B6}.muzyka{background:#F39C12}.plastyka{background:#E67E22}.religia{background:#95A5A6}.informatyka{background:#2ECC71}.angielski{background:#3498DB}.empty{color:#999;background:transparent;border:none}
+    footer{margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+    .print-btn{background:#275A8E;color:white;padding:8px 12px;border-radius:10px;text-decoration:none}
+    @media (max-width:900px){table{font-size:13px}}
   </style>
 </head>
 <body>
-  <div class="card" role="main">
+  <div class="card">
     <header>
-      <div class="title">
-        <div class="decor">📚🎨🎵</div>
-        <div>
-          <h1>Plan lekcji — Klasa 5a</h1>
-          <div class="subtitle">Rok szkolny 2026/2027 — Szkoła Podstawowa (wzór przyjazny dzieciom)</div>
-        </div>
-      </div>
       <div>
-        <div style="text-align:right">
-          <div style="font-weight:700;color:#333">Nauczyciel: —</div>
-          <div style="font-size:12px;color:#7b7b7b">Aktualne: sierpień 2026</div>
-        </div>
+        <h1>Plan lekcji — Klasa 5a</h1>
+        <div style="font-size:13px;color:#666">Źródło kolejności: projekt https://gtxsdz.github.io/plan/ (tygodnie A/B)</div>
+      </div>
+      <div class="controls">
+        <span class="week-label">Wybierz tydzień:</span>
+        <button id="weekA" class="btn">Tydzień A</button>
+        <button id="weekB" class="btn outline">Tydzień B</button>
+        <a class="print-btn" href="#" onclick="window.print();return false;">Drukuj</a>
       </div>
     </header>
 
     <section aria-label="Plan lekcji">
-      <table>
+      <table id="planTable" aria-live="polite">
         <thead>
           <tr>
             <th>Godziny / Lekcja</th>
@@ -94,81 +57,86 @@
             <th>Piątek</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td class="lesson-number"><div>1<br><span style="font-size:12px;color:#777">8:00</span></div></td>
-            <td><span class="subject polski">J. polski</span><div class="room">s. 12</div></td>
-            <td><span class="subject historia">Historia</span><div class="room">s. 22</div></td>
-            <td><span class="subject matematyka">Matematyka</span><div class="room">s. 11</div></td>
-            <td><span class="subject technika">Technika</span><div class="room">s. 34</div></td>
-            <td><span class="subject religia">Religia</span><div class="room">s. 14</div></td>
-          </tr>
-
-          <tr>
-            <td class="lesson-number"><div>2<br><span style="font-size:12px;color:#777">8:55</span></div></td>
-            <td><span class="subject matematyka">Matematyka</span><div class="room">s. 11</div></td>
-            <td><span class="subject matematyka">Matematyka</span><div class="room">s. 11</div></td>
-            <td><span class="subject wf">W-F</span><div class="room">hala / s. G</div></td>
-            <td><span class="subject muzyka">Muzyka</span><div class="room">s. 21</div></td>
-            <td><span class="subject matematyka">Matematyka</span><div class="room">s. 11</div></td>
-          </tr>
-
-          <tr>
-            <td class="lesson-number"><div>3<br><span style="font-size:12px;color:#777">9:50</span></div></td>
-            <td><span class="subject angielski">J. angielski</span><div class="room">s. 13</div></td>
-            <td><span class="subject przyroda">Przyroda</span><div class="room">s. 31</div></td>
-            <td><span class="subject informatyka">Informatyka</span><div class="room">s. 31</div></td>
-            <td><span class="subject polski">J. polski</span><div class="room">s. 12</div></td>
-            <td><span class="subject wf">W-F</span><div class="room">hala / s. G</div></td>
-          </tr>
-
-          <tr>
-            <td class="lesson-number"><div>4<br><span style="font-size:12px;color:#777">10:45</span></div></td>
-            <td><span class="subject przyroda">Przyroda</span><div class="room">s. 31</div></td>
-            <td><span class="subject polski">J. polski</span><div class="room">s. 12</div></td>
-            <td><span class="subject angielski">J. angielski</span><div class="room">s. 13</div></td>
-            <td><span class="subject polski">J. polski</span><div class="room">s. 12</div></td>
-            <td><span class="subject angielski">J. angielski</span><div class="room">s. 13</div></td>
-          </tr>
-
-          <tr>
-            <td class="lesson-number"><div>5<br><span style="font-size:12px;color:#777">11:50</span></div></td>
-            <td><span class="subject wf">W-F</span><div class="room">hala / s. G</div></td>
-            <td><span class="subject religia">Religia</span><div class="room">s. 14</div></td>
-            <td><span class="subject plastyka">Plastyka</span><div class="room">s. 23</div></td>
-            <td><span class="subject historia">Historia</span><div class="room">s. 22</div></td>
-            <td><span class="subject przyroda">Przyroda</span><div class="room">s. 31</div></td>
-          </tr>
-
-          <tr>
-            <td class="lesson-number"><div>6<br><span style="font-size:12px;color:#777">12:45</span></div></td>
-            <td><span class="subject religia">Religia</span><div class="room">s. 14</div></td>
-            <td><span class="subject technika">Technika</span><div class="room">s. 34</div></td>
-            <td><span class="subject muzyka">Muzyka</span><div class="room">s. 21</div></td>
-            <td><span class="subject matematyka">Matematyka</span><div class="room">s. 11</div></td>
-            <td><span class="subject polski">J. polski</span><div class="room">s. 12</div></td>
-          </tr>
-
-          <tr>
-            <td class="lesson-number"><div>7<br><span style="font-size:12px;color:#777">13:40</span></div></td>
-            <td><span class="empty">-</span></td>
-            <td><span class="empty">-</span></td>
-            <td><span class="empty">-</span></td>
-            <td><span class="subject wf">W-F</span><div class="room">hala / s. G</div></td>
-            <td><span class="subject informatyka">Informatyka</span><div class="room">s. 31</div></td>
-          </tr>
-
+        <tbody id="planBody">
+          <!-- wypełniane przez JS -->
         </tbody>
       </table>
-
     </section>
 
     <footer>
-      <div>Miłego dnia! 🌞 — Plan przygotowany na podstawie dostarczonego pliku PDF.</div>
-      <div>
-        <a class="print-btn" href="#" onclick="window.print();return false;">Drukuj 📄</a>
-      </div>
+      <div style="color:#666">Miłego dnia! 🌞 — Plan oparty na projekcie /plan</div>
+      <div style="font-size:12px;color:#777">Aktualne: sierpień 2026</div>
     </footer>
   </div>
+
+  <script>
+    // Dane lekcji wyprowadzone z https://gtxsdz.github.io/plan/ (lewa = Tydzień A, prawa = Tydzień B przy znaku "/")
+    const times = ['1\n8:00–8:45','2\n8:55–9:40','3\n9:50–10:35','4\n10:45–11:30','5\n11:45–12:30','6\n12:50–13:35'];
+
+    const weekA = [
+      // lesson 1
+      [ {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'',room:'',cls:'empty'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'matematyka',room:'243',cls:'matematyka'} ],
+      // lesson 2
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'religia'}, {sub:'wf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'przyroda'}, {sub:'j. polski',room:'125',cls:'polski'} ],
+      // lesson 3
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. angielski',room:'204',cls:'angielski'}, {sub:'biologia',room:'203',cls:'przyroda'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf',room:'',cls:'wf'} ],
+      // lesson 4
+      [ {sub:'technika',room:'102',cls:'technika'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'historia',room:'227',cls:'historia'}, {sub:'basen',room:'',cls:'wf'}, {sub:'j. angielski',room:'204',cls:'angielski'} ],
+      // lesson 5
+      [ {sub:'wf',room:'',cls:'wf'}, {sub:'plastyka',room:'125',cls:'plastyka'}, {sub:'j. angielski',room:'204',cls:'angielski'}, {sub:'historia',room:'236',cls:'historia'}, {sub:'muzyka',room:'50',cls:'muzyka'} ],
+      // lesson 6
+      [ {sub:'—',room:'',cls:'empty'}, {sub:'edu. zdrow.',room:'114',cls:'religia'}, {sub:'informatyka',room:'103',cls:'informatyka'}, {sub:'',room:'',cls:'empty'}, {sub:'religia',room:'141',cls:'religia'} ]
+    ];
+
+    const weekB = [
+      [ {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf',room:'',cls:'wf'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'matematyka',room:'243',cls:'matematyka'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'religia'}, {sub:'informatyka',room:'103',cls:'informatyka'}, {sub:'geografia',room:'203',cls:'przyroda'}, {sub:'j. polski',room:'125',cls:'polski'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. angielski',room:'131',cls:'angielski'}, {sub:'biologia',room:'203',cls:'przyroda'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf',room:'',cls:'wf'} ],
+      [ {sub:'technika',room:'102',cls:'technika'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'historia',room:'227',cls:'historia'}, {sub:'wf',room:'',cls:'wf'}, {sub:'j. angielski',room:'131',cls:'angielski'} ],
+      [ {sub:'—',room:'',cls:'empty'}, {sub:'plastyka',room:'125',cls:'plastyka'}, {sub:'j. angielski',room:'131',cls:'angielski'}, {sub:'historia',room:'236',cls:'historia'}, {sub:'muzyka',room:'50',cls:'muzyka'} ],
+      [ {sub:'—',room:'',cls:'empty'}, {sub:'edu. zdrow.',room:'114',cls:'religia'}, {sub:'—',room:'',cls:'empty'}, {sub:'wf',room:'',cls:'wf'}, {sub:'religia',room:'141',cls:'religia'} ]
+    ];
+
+    const weekdays = ['Poniedziałek','Wtorek','Środa','Czwartek','Piątek'];
+
+    const planBody = document.getElementById('planBody');
+    let current = 'A';
+
+    function renderWeek(weekData){
+      planBody.innerHTML = '';
+      for(let i=0;i<weekData.length;i++){
+        const row = document.createElement('tr');
+        const timeTd = document.createElement('td');
+        timeTd.className = 'lesson-number';
+        timeTd.innerHTML = '<div>'+ (i+1) +'<br><span style="font-size:12px;color:#777">'+ (times[i].split('\\n')[1]) +'</span></div>';
+        row.appendChild(timeTd);
+        for(let d=0;d<5;d++){
+          const cellTd = document.createElement('td');
+          cellTd.className = 'cell';
+          const info = weekData[i][d];
+          if(!info || info.cls==='empty' || info.sub==='—' || info.sub===''){
+            cellTd.innerHTML = '<div class="subject empty">—</div>';
+          } else {
+            const subj = document.createElement('div');
+            subj.className = 'subject '+ (info.cls||'');
+            subj.textContent = info.sub;
+            const room = document.createElement('div');
+            room.className = 'room';
+            room.textContent = info.room ? 's. '+info.room : '';
+            cellTd.appendChild(subj);
+            cellTd.appendChild(room);
+          }
+          row.appendChild(cellTd);
+        }
+        planBody.appendChild(row);
+      }
+    }
+
+    document.getElementById('weekA').addEventListener('click',function(){ current='A'; renderWeek(weekA); this.classList.remove('outline'); document.getElementById('weekB').classList.add('outline'); });
+    document.getElementById('weekB').addEventListener('click',function(){ current='B'; renderWeek(weekB); this.classList.remove('outline'); document.getElementById('weekA').classList.add('outline'); });
+
+    // Inicjalne renderowanie: Tydzień A
+    renderWeek(weekA);
+  </script>
 </body>
 </html>
