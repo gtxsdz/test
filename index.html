@@ -34,8 +34,6 @@
     .timecell{font-weight:900;color:#2b3b4a;background:linear-gradient(180deg,#fff,#fff6e6);border-radius:10px;border:2px solid #ffe0aa;padding:8px;text-align:center;width:72px}
 
     .tile{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 8px;border-radius:12px;min-height:56px;color:#fff;font-weight:800;font-size:14px;box-shadow:0 8px 16px rgba(60,80,110,0.06);position:relative}
-    .tile .time-top{font-size:11px;opacity:0.95;margin-bottom:4px}
-    .tile .time-bottom{font-size:11px;opacity:0.95;margin-top:6px}
     .tile .icon{font-size:20px;margin-bottom:4px;text-shadow:0 1px 0 rgba(0,0,0,0.06)}
     .tile .room{font-size:11px;color:rgba(255,255,255,0.95);margin-top:6px;background:rgba(0,0,0,0.06);padding:3px 6px;border-radius:8px}
 
@@ -131,7 +129,7 @@
   </div>
 
   <script>
-    // times as start/end for consistent cell formatting
+    // times as start/end for left column only
     const times = [
       {start:'8:00', end:'8:45'},
       {start:'8:55', end:'9:40'},
@@ -200,29 +198,26 @@
 
       for(let i=0;i<weekData.length;i++){
         const tr = document.createElement('tr');
-        const tdTime = document.createElement('td'); tdTime.className='timecell'; tdTime.innerHTML = '<div>'+(i+1)+'</div><div style="font-size:11px;color:#5b5b5b;margin-top:4px">'+times[i].start+'–'+times[i].end+'</div>';
+
+        // left column: show start on first line with dash and end on second line
+        const tdTime = document.createElement('td');
+        tdTime.className='timecell';
+        tdTime.innerHTML = '<div style="font-size:13px;font-weight:900">'+times[i].start+' -</div><div style="font-size:12px;color:#5b5b5b;margin-top:4px">'+times[i].end+'</div>';
         tr.appendChild(tdTime);
+
         for(let d=0;d<5;d++){
           const td = document.createElement('td');
           const info = weekData[i][d];
-          const start = times[i].start; const end = times[i].end;
+
           if(!info || info.cls==='empty' || info.sub==='—' || info.sub===''){
-            const empty = document.createElement('div'); empty.className='empty';
-            empty.innerHTML = '<div style="font-size:11px;color:#9aa0b0">'+start+'</div><div style="margin-top:6px;color:#9aa0b0">—</div><div style="margin-top:6px;font-size:11px;color:#9aa0b0">'+end+'</div>';
-            td.appendChild(empty);
+            const empty = document.createElement('div'); empty.className='empty'; empty.textContent='—'; td.appendChild(empty);
           } else {
             const clsKey = canonicalClass(info);
             const tile = document.createElement('div'); tile.className='tile '+clsKey;
-            const timeTop = document.createElement('div'); timeTop.className='time-top'; timeTop.textContent = start;
             const icon = document.createElement('div'); icon.className='icon'; icon.textContent = iconMap[clsKey] || iconMap['subject'];
             const text = document.createElement('div'); text.className='text'; text.textContent = info.sub;
             const room = document.createElement('div'); room.className='room'; room.textContent = info.room ? ('s. '+info.room) : '';
-            const timeBottom = document.createElement('div'); timeBottom.className='time-bottom'; timeBottom.textContent = end;
-            tile.appendChild(timeTop);
-            tile.appendChild(icon);
-            tile.appendChild(text);
-            if(room.textContent) tile.appendChild(room);
-            tile.appendChild(timeBottom);
+            tile.appendChild(icon); tile.appendChild(text); if(room.textContent) tile.appendChild(room);
             td.appendChild(tile);
           }
           tr.appendChild(td);
