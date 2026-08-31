@@ -3,19 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Plan lekcji — Klasa 5a (kolorowy, poprawiony)</title>
+  <title>Plan lekcji — Klasa 5a (kolorowy, poprawiony godziny)</title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
   <style>
     @page { size: A4 landscape; margin: 8mm; }
     *{box-sizing:border-box}
     html,body{height:100%;background:linear-gradient(180deg,#fffaf0,#e8f7ff);font-family:'Baloo 2', 'Patrick Hand', system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;padding:10px}
 
-    /* card (narrower vertical spacing) */
     .card{max-width:1100px;margin:0 auto;background:linear-gradient(180deg,#fff,#fff9f2);border-radius:18px;padding:12px 12px 14px;box-shadow:0 14px 30px rgba(30,50,80,0.09);border:3px solid #ffdca8;position:relative;overflow:hidden}
 
-    /* background decorative layer behind content (lower z-index) */
     .decor-layer{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.95}
-    /* content sits above decorations */
     .content{position:relative;z-index:2}
 
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
@@ -36,12 +33,12 @@
     tbody td{padding:6px 6px;vertical-align:middle}
     .timecell{font-weight:900;color:#2b3b4a;background:linear-gradient(180deg,#fff,#fff6e6);border-radius:10px;border:2px solid #ffe0aa;padding:8px;text-align:center;width:72px}
 
-    /* compact tiles */
     .tile{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 8px;border-radius:12px;min-height:56px;color:#fff;font-weight:800;font-size:14px;box-shadow:0 8px 16px rgba(60,80,110,0.06);position:relative}
+    .tile .time-top{font-size:11px;opacity:0.95;margin-bottom:4px}
+    .tile .time-bottom{font-size:11px;opacity:0.95;margin-top:6px}
     .tile .icon{font-size:20px;margin-bottom:4px;text-shadow:0 1px 0 rgba(0,0,0,0.06)}
     .tile .room{font-size:11px;color:rgba(255,255,255,0.95);margin-top:6px;background:rgba(0,0,0,0.06);padding:3px 6px;border-radius:8px}
 
-    /* subject styles (vibrant but compact) */
     .matematyka{background:linear-gradient(135deg,#6ef08a,#2fb45a)}
     .polski{background:linear-gradient(135deg,#ff8aa1,#ff5c8a)}
     .angielski{background:linear-gradient(135deg,#8fd4ff,#3aa0ff)}
@@ -55,7 +52,6 @@
     .religia{background:linear-gradient(135deg,#9ec6ff,#7aa6ff)}
     .empty{background:transparent;color:#9aa0b0;border-radius:10px;padding:6px;border:2px dashed rgba(0,0,0,0.06);min-height:56px;display:flex;align-items:center;justify-content:center}
 
-    /* stickers repositioned behind content (lower z-index) and reduced size */
     .sticker{position:absolute;z-index:1;pointer-events:none;opacity:0.85}
     .sticker.star{right:12px;top:18px;width:48px;transform:rotate(-8deg)}
     .sticker.butterfly{left:12px;top:70px;width:64px}
@@ -69,7 +65,6 @@
 </head>
 <body>
   <div class="card">
-    <!-- decorative layer (SVG confetti + stickers) placed behind content to avoid overlap -->
     <div class="decor-layer" aria-hidden>
       <svg class="confetti" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;position:absolute;inset:0;z-index:0;opacity:0.9">
         <g fill-opacity="0.95">
@@ -84,7 +79,6 @@
         </g>
       </svg>
 
-      <!-- simpler embedded SVG stickers (behind content) -->
       <svg class="sticker star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="position:absolute;right:12px;top:18px;z-index:1;pointer-events:none;opacity:0.95">
         <polygon points="32,3 39,24 61,24 43,37 49,59 32,46 15,59 21,37 3,24 25,24" fill="#ffd36b" stroke="#ffb84a" stroke-width="1"/>
       </svg>
@@ -137,8 +131,15 @@
   </div>
 
   <script>
-    // compact times
-    const times = ['8:00–8:45','8:55–9:40','9:50–10:35','10:45–11:30','11:45–12:30','12:50–13:35'];
+    // times as start/end for consistent cell formatting
+    const times = [
+      {start:'8:00', end:'8:45'},
+      {start:'8:55', end:'9:40'},
+      {start:'9:50', end:'10:35'},
+      {start:'10:45', end:'11:30'},
+      {start:'11:45', end:'12:30'},
+      {start:'12:50', end:'13:35'}
+    ];
 
     // data (from /plan)
     const weekA = [
@@ -161,7 +162,6 @@
 
     const planBody = document.getElementById('planBody');
 
-    // canonicalize class key based on provided cls or subject text
     function canonicalClass(info){
       if(!info) return 'empty';
       if(info.cls && info.cls !== '') return info.cls;
@@ -183,7 +183,6 @@
     function renderWeek(weekData){
       planBody.innerHTML = '';
 
-      // icon map keyed by canonical class
       const iconMap = {
         matematyka:'➗',
         polski:'📚',
@@ -201,21 +200,29 @@
 
       for(let i=0;i<weekData.length;i++){
         const tr = document.createElement('tr');
-        const tdTime = document.createElement('td'); tdTime.className='timecell'; tdTime.innerHTML = '<div>'+(i+1)+'</div><div style="font-size:11px;color:#5b5b5b;margin-top:4px">'+times[i]+'</div>';
+        const tdTime = document.createElement('td'); tdTime.className='timecell'; tdTime.innerHTML = '<div>'+(i+1)+'</div><div style="font-size:11px;color:#5b5b5b;margin-top:4px">'+times[i].start+'–'+times[i].end+'</div>';
         tr.appendChild(tdTime);
         for(let d=0;d<5;d++){
           const td = document.createElement('td');
           const info = weekData[i][d];
+          const start = times[i].start; const end = times[i].end;
           if(!info || info.cls==='empty' || info.sub==='—' || info.sub===''){
-            const empty = document.createElement('div'); empty.className='empty'; empty.textContent='—'; td.appendChild(empty);
+            const empty = document.createElement('div'); empty.className='empty';
+            empty.innerHTML = '<div style="font-size:11px;color:#9aa0b0">'+start+'</div><div style="margin-top:6px;color:#9aa0b0">—</div><div style="margin-top:6px;font-size:11px;color:#9aa0b0">'+end+'</div>';
+            td.appendChild(empty);
           } else {
             const clsKey = canonicalClass(info);
             const tile = document.createElement('div'); tile.className='tile '+clsKey;
-            const icon = document.createElement('div'); icon.className='icon';
-            icon.textContent = iconMap[clsKey] || iconMap['subject'];
+            const timeTop = document.createElement('div'); timeTop.className='time-top'; timeTop.textContent = start;
+            const icon = document.createElement('div'); icon.className='icon'; icon.textContent = iconMap[clsKey] || iconMap['subject'];
             const text = document.createElement('div'); text.className='text'; text.textContent = info.sub;
             const room = document.createElement('div'); room.className='room'; room.textContent = info.room ? ('s. '+info.room) : '';
-            tile.appendChild(icon); tile.appendChild(text); tile.appendChild(room);
+            const timeBottom = document.createElement('div'); timeBottom.className='time-bottom'; timeBottom.textContent = end;
+            tile.appendChild(timeTop);
+            tile.appendChild(icon);
+            tile.appendChild(text);
+            if(room.textContent) tile.appendChild(room);
+            tile.appendChild(timeBottom);
             td.appendChild(tile);
           }
           tr.appendChild(td);
@@ -227,7 +234,6 @@
     document.getElementById('weekA').addEventListener('click',()=>{renderWeek(weekA);document.getElementById('weekA').style.opacity=1;document.getElementById('weekB').style.opacity=0.8});
     document.getElementById('weekB').addEventListener('click',()=>{renderWeek(weekB);document.getElementById('weekB').style.opacity=1;document.getElementById('weekA').style.opacity=0.8});
 
-    // initial
     renderWeek(weekA);
   </script>
 </body>
