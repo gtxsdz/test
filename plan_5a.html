@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Plan lekcji - Klasa 5a (2026/2027)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Landscape / print setup */
+    @page { size: A4 landscape; margin: 10mm; }
+    html,body{height:100%;}
+    body{
+      font-family: 'Nunito', 'Baloo 2', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg,#FFF7E6 0%, #E8F7FF 50%, #F9E8FF 100%);
+      margin:0; padding:20px; box-sizing:border-box; color:#333;
+    }
+    .card{
+      max-width:1200px; margin:0 auto; background:rgba(255,255,255,0.9); border-radius:18px; padding:18px; box-shadow:0 8px 24px rgba(0,0,0,0.08);
+      display:flex; flex-direction:column; gap:12px;
+    }
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .title{
+      display:flex; align-items:center; gap:12px;
+    }
+    .title h1{font-family:'Baloo 2', cursive; margin:0; font-size:28px; color:#275A8E}
+    .subtitle{font-size:14px; color:#6b6b6b}
+    .decor{
+      font-size:40px;
+    }
+    /* Table styling */
+    table{width:100%; border-collapse:separate; border-spacing:8px;}
+    th, td{padding:12px; text-align:center; vertical-align:middle; border-radius:10px}
+    thead th{background:linear-gradient(90deg,#FFD27A,#FFB3C6); color:#1b2440; font-weight:700; font-size:16px}
+    tbody td{background:rgba(255,255,255,0.9); border:2px dashed rgba(0,0,0,0.04);}
+    .lesson-number{font-weight:700; color:#275A8E}
+    .subject{
+      display:inline-block; padding:6px 8px; border-radius:999px; color:white; font-weight:700; font-size:13px; min-width:88px;
+    }
+    /* Color map for subjects */
+    .polski{background:#F26B6B}
+    .matematyka{background:#4CAF50}
+    .przyroda{background:#7BCBC0}
+    .historia{background:#F6B05E}
+    .wf{background:#6FA8DC}
+    .technika{background:#9B59B6}
+    .muzyka{background:#F39C12}
+    .plastyka{background:#E67E22}
+    .religia{background:#95A5A6}
+    .informatyka{background:#2ECC71}
+    .angielski{background:#3498DB}
+    .empty{color:#999}
+
+    /* Cute footer */
+    footer{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:13px; color:#666}
+    .print-btn{background:#275A8E; color:white; padding:8px 12px; border-radius:10px; text-decoration:none;}
+
+    /* Responsive for screen */
+    @media (max-width:900px){
+      .card{padding:12px}
+      table{font-size:13px}
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <header>
+      <div class="title">
+        <div class="decor">📚🎨🎵</div>
+        <div>
+          <h1>Plan lekcji — Klasa 5a</h1>
+          <div class="subtitle">Rok szkolny 2026/2027 — Szkoła Podstawowa (wzór przyjazny dzieciom)</div>
+        </div>
+      </div>
+      <div>
+        <div style="text-align:right">
+          <div style="font-weight:700;color:#333">Nauczyciel: —</div>
+          <div style="font-size:12px;color:#7b7b7b">Aktualne: sierpień 2026</div>
+        </div>
+      </div>
+    </header>
+
+    <section aria-label="Plan lekcji">
+      <table>
+        <thead>
+          <tr>
+            <th>Godziny / Lekcja</th>
+            <th>Poniedziałek</th>
+            <th>Wtorek</th>
+            <th>Środa</th>
+            <th>Czwartek</th>
+            <th>Piątek</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="lesson-number"><div>1<br><span style="font-size:12px;color:#777">8:00</span></div></td>
+            <td><span class="subject polski">J. polski</span></td>
+            <td><span class="subject historia">Historia</span></td>
+            <td><span class="subject matematyka">Matematyka</span></td>
+            <td><span class="subject technika">Technika</span></td>
+            <td><span class="subject religia">Religia</span></td>
+          </tr>
+
+          <tr>
+            <td class="lesson-number"><div>2<br><span style="font-size:12px;color:#777">8:55</span></div></td>
+            <td><span class="subject matematyka">Matematyka</span></td>
+            <td><span class="subject matematyka">Matematyka</span></td>
+            <td><span class="subject wf">W-F</span></td>
+            <td><span class="subject muzyka">Muzyka</span></td>
+            <td><span class="subject matematyka">Matematyka</span></td>
+          </tr>
+
+          <tr>
+            <td class="lesson-number"><div>3<br><span style="font-size:12px;color:#777">9:50</span></div></td>
+            <td><span class="subject angielski">J. angielski</span></td>
+            <td><span class="subject przyroda">Przyroda</span></td>
+            <td><span class="subject informatyka">Informatyka</span></td>
+            <td><span class="subject polski">J. polski</span></td>
+            <td><span class="subject wf">W-F</span></td>
+          </tr>
+
+          <tr>
+            <td class="lesson-number"><div>4<br><span style="font-size:12px;color:#777">10:45</span></div></td>
+            <td><span class="subject przyroda">Przyroda</span></td>
+            <td><span class="subject polski">J. polski</span></td>
+            <td><span class="subject angielski">J. angielski</span></td>
+            <td><span class="subject polski">J. polski</span></td>
+            <td><span class="subject angielski">J. angielski</span></td>
+          </tr>
+
+          <tr>
+            <td class="lesson-number"><div>5<br><span style="font-size:12px;color:#777">11:50</span></div></td>
+            <td><span class="subject wf">W-F</span></td>
+            <td><span class="subject religia">Religia</span></td>
+            <td><span class="subject plastyka">Plastyka</span></td>
+            <td><span class="subject historia">Historia</span></td>
+            <td><span class="subject przyroda">Przyroda</span></td>
+          </tr>
+
+          <tr>
+            <td class="lesson-number"><div>6<br><span style="font-size:12px;color:#777">12:45</span></div></td>
+            <td><span class="subject religia">Religia</span></td>
+            <td><span class="subject technika">Technika</span></td>
+            <td><span class="subject muzyka">Muzyka</span></td>
+            <td><span class="subject matematyka">Matematyka</span></td>
+            <td><span class="subject polski">J. polski</span></td>
+          </tr>
+
+          <tr>
+            <td class="lesson-number"><div>7<br><span style="font-size:12px;color:#777">13:40</span></div></td>
+            <td><span class="empty">-</span></td>
+            <td><span class="empty">-</span></td>
+            <td><span class="empty">-</span></td>
+            <td><span class="subject wf">W-F</span></td>
+            <td><span class="subject informatyka">Informatyka</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p style="margin-top:8px;color:#666;font-size:13px">Legenda: J. polski = język polski, Matematyka = matematyka, Przyroda = przyroda, Historia = historia, W-F = wychowanie fizyczne, Technika = technika, Muzyka = muzyka, Plastyka = plastyka, Religia = religia, Informatyka = informatyka, J. angielski = język angielski.</p>
+
+    </section>
+
+    <footer>
+      <div>Miłego dnia! 🌞 — Plan przygotowany na podstawie dostarczonego pliku PDF.</div>
+      <div>
+        <a class="print-btn" href="#" onclick="window.print();return false;">Drukuj 📄</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
