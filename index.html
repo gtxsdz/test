@@ -50,6 +50,7 @@
     .informatyka{background:linear-gradient(135deg,#88f5ff,#4adbf0)}
     .muzyka{background:linear-gradient(135deg,#ffd6ff,#ff9bff)}
     .religia{background:linear-gradient(135deg,#9ec6ff,#7aa6ff)}
+    .wychowawca{background:linear-gradient(135deg,#ffe6b3,#ffcc80)}
     .empty{background:transparent;color:#9aa0b0;border-radius:10px;padding:6px;border:2px dashed rgba(0,0,0,0.06);min-height:56px;display:flex;align-items:center;justify-content:center}
 
     .sticker{position:absolute;z-index:1;pointer-events:none;opacity:0.85}
@@ -141,10 +142,10 @@
       {start:'12:50', end:'13:35'}
     ];
 
-    // data (from /plan)
+    // data (from /plan) — note: klasy 'wychowawca' użyte tam, gdzie było 'zaj. z wych.'
     const weekA = [
       [ {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'matematyka',room:'243',cls:'matematyka'} ],
-      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'polski'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'geografia'}, {sub:'j. polski',room:'125',cls:'polski'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'wychowawca'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'geografia'}, {sub:'j. polski',room:'125',cls:'polski'} ],
       [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. ang.',room:'204',cls:'angielski'}, {sub:'biologia',room:'203',cls:'biologia'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf / wf',room:'—',cls:'wf'} ],
       [ {sub:'technika',room:'102',cls:'technika'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'historia',room:'227',cls:'historia'}, {sub:'basen / wf',room:'—',cls:'wf'}, {sub:'j. ang.',room:'204',cls:'angielski'} ],
       [ {sub:'wf / x',room:'—',cls:'wf'}, {sub:'plastyka',room:'125',cls:'plastyka'}, {sub:'j. ang.',room:'204',cls:'angielski'}, {sub:'historia',room:'236',cls:'historia'}, {sub:'muzyka',room:'50',cls:'muzyka'} ],
@@ -153,7 +154,7 @@
 
     const weekB = [
       [ {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'matematyka',room:'243',cls:'matematyka'} ],
-      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'polski'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'geografia'}, {sub:'j. polski',room:'125',cls:'polski'} ],
+      [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'zaj. z wych.',room:'243',cls:'wychowawca'}, {sub:'wf / inf',room:'103',cls:'wf'}, {sub:'geografia',room:'203',cls:'geografia'}, {sub:'j. polski',room:'125',cls:'polski'} ],
       [ {sub:'j. polski',room:'125',cls:'polski'}, {sub:'j. ang.',room:'131/204',cls:'angielski'}, {sub:'biologia',room:'203',cls:'biologia'}, {sub:'matematyka',room:'243',cls:'matematyka'}, {sub:'wf / wf',room:'—',cls:'wf'} ],
       [ {sub:'technika',room:'102',cls:'technika'}, {sub:'j. polski',room:'125',cls:'polski'}, {sub:'historia',room:'227',cls:'historia'}, {sub:'x / wf',room:'—',cls:'wf'}, {sub:'j. ang.',room:'131/204',cls:'angielski'} ],
       [ {sub:'—',room:'',cls:'empty'}, {sub:'plastyka',room:'125',cls:'plastyka'}, {sub:'j. ang.',room:'131/204',cls:'angielski'}, {sub:'historia',room:'236',cls:'historia'}, {sub:'muzyka',room:'50',cls:'muzyka'} ],
@@ -176,7 +177,8 @@
       plastyka: ['plastyka','plastyczne','plasty'],
       informatyka: ['informatyka','inf','info','it'],
       muzyka: ['muzyka','muzyk'],
-      religia: ['religia','rel','edu zdrow','edu. zdrow','eduzdrowie']
+      religia: ['religia','rel','edu zdrow','edu. zdrow','eduzdrowie'],
+      wychowawca: ['zaj z wych','zaj. z wych','zaj. z wychowawca','zaj z wychowawca','wychowawca','z wych']
     };
 
     const aliasToKey = {};
@@ -265,6 +267,7 @@
         informatyka:'💻',
         muzyka:'🎵',
         religia:'✝️',
+        wychowawca:'🧑‍🏫',
         subject:'📘'
       };
 
