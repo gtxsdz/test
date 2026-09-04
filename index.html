@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan lekcji klasy Va</title>
+<style>
+  @page{ size:A4 landscape; margin:6mm; }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Comic Sans MS","Segoe UI",Verdana,sans-serif;
+    margin:0; padding:14px;
+    background:#e8dcc3; color:#4a3616;
+    transition:background-color .3s,color .3s;
+  }
+  .sheet{
+    max-width:1180px; margin:0 auto;
+    background:linear-gradient(180deg,#fbf5e6,#f2e7cf);
+    border-radius:20px; padding:20px 26px 24px;
+    position:relative; overflow:hidden;
+    box-shadow:0 8px 30px rgba(120,90,40,.22);
+    border:3px solid #d8c191;
+    transition:background .3s,border-color .3s;
+  }
+  .art{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .content{position:relative;z-index:2;}
+
+  /* TOP BAR */
+  .top-bar{display:flex;justify-content:center;margin-bottom:12px;}
+  .status-banner{
+    width:100%; background:#fff6e2; border:2px solid #d9b98a;
+    border-radius:12px; padding:10px 16px; font-size:13.5px;
+    font-weight:bold; color:#5a3d1e;
+    box-shadow:0 2px 5px rgba(120,90,40,.15);
+    text-align:center; line-height:1.3;
+  }
+  .progress-container{
+    width:100%; height:7px;
+    background:rgba(120,90,40,.15);
+    border-radius:4px; margin-top:8px;
+    overflow:hidden; display:none;
+  }
+  .progress-bar{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,#ff4757,#ff6b81);
+    border-radius:4px; transition:width .4s,background .3s;
+  }
+
+  /* BOTTOM BAR */
+  .bottom-bar{display:flex;justify-content:center;gap:12px;margin-top:18px;flex-wrap:wrap;}
+  .theme-toggle-btn{
+    background:#5a3d1e; color:#fff6e2; border:2px solid #7a5a34;
+    padding:10px 20px; border-radius:12px; font-size:13px;
+    font-weight:bold; cursor:pointer; font-family:inherit;
+    transition:all .2s; box-shadow:0 3px 6px rgba(0,0,0,.15);
+  }
+  .theme-toggle-btn:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2);}
+  .edit-btn{
+    display:none;
+    background:#2d6a4f; color:#fff; border:2px solid #3a8c68;
+    padding:10px 20px; border-radius:12px; font-size:13px;
+    font-weight:bold; cursor:pointer; font-family:inherit;
+    transition:all .2s; box-shadow:0 3px 6px rgba(0,0,0,.15);
+  }
+  .edit-btn:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2);}
+  .admin-logout-btn{
+    display:none;
+    background:#7a2d2d; color:#fff; border:2px solid #9c4444;
+    padding:10px 16px; border-radius:12px; font-size:12px;
+    font-weight:bold; cursor:pointer; font-family:inherit;
+    transition:all .2s; box-shadow:0 3px 6px rgba(0,0,0,.15);
+  }
+  .admin-logout-btn:hover{transform:translateY(-2px);}
+  .admin-login-btn{
+    background:transparent; color:#b0956a;
+    border:1px dashed #c9b080; padding:6px 14px;
+    border-radius:10px; font-size:11px; cursor:pointer;
+    font-family:inherit; font-weight:bold; transition:all .2s;
+  }
+  .admin-login-btn:hover{color:#5a3d1e;border-color:#8a6a40;}
+
+  /* HEADER */
+  header{text-align:center;margin:0 0 16px;}
+  header h1{margin:0;font-size:36px;color:#5a3d1e;letter-spacing:1px;text-shadow:1px 1px 0 #fff,2px 2px 0 #d9b98a;}
+  header .wych{font-size:15px;color:#7a5a34;margin-top:6px;}
+
+  /* TABLE */
+  table{width:100%;border-collapse:separate;border-spacing:7px;table-layout:fixed;}
+  thead th{
+    font-size:15px; color:#5a3d1e;
+    background:linear-gradient(180deg,#f0dcae,#e3c481);
+    border:2px solid #c9a55f; border-radius:10px;
+    padding:9px 4px; box-shadow:0 2px 3px rgba(120,90,40,.2);
+  }
+  th.timo{width:58px;}
+  td.nr{text-align:center;}
+  td.nr .num{
+    display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+    width:52px;min-height:48px;border-radius:12px;
+    background:linear-gradient(180deg,#fff6e2,#f5e4bd);
+    border:2px solid #d9b98a;color:#6a4a24;padding:4px 2px;
+    box-shadow:0 2px 3px rgba(120,90,40,.18);
+  }
+  td.nr .num .bell{font-size:13px;line-height:1;font-weight:700;}
+  td.nr .num .no{font-weight:900;font-size:16px;line-height:1.1;}
+  td.nr .num .time{font-size:8.5px;color:#8a6c40;line-height:1.05;margin-top:1px;white-space:nowrap;font-weight:700;}
+  td.cell{padding:0;}
+  .tile{
+    position:relative;border-radius:12px;padding:7px 6px;
+    min-height:48px;height:68px;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    text-align:center;background:rgba(255,253,246,.96);
+    border:2px solid #c9a55f;
+    box-shadow:0 3px 5px rgba(120,90,40,.2),inset 0 1px 0 rgba(255,255,255,.7);
+    cursor:pointer;transition:transform .2s,opacity .25s,box-shadow .25s,border-color .25s;
+  }
+  tbody tr:nth-child(odd) td.cell:nth-child(even) .tile{transform:rotate(-1.2deg);}
+  tbody tr:nth-child(even) td.cell:nth-child(odd)  .tile{transform:rotate(1.2deg);}
+  tbody tr:nth-child(odd) td.cell:nth-child(3n)   .tile{transform:rotate(.8deg);}
+  .tile .ico{font-size:19px;}
+  .tile .txt .p{display:block;font-weight:bold;color:#4a3616;font-size:13.5px;}
+  .tile .txt .s{display:block;font-size:11px;color:#8a6c40;font-weight:700;}
+  .col-pon .tile{border-color:#e0a3b4;background:linear-gradient(180deg,#fffdf6,#ffeef3);}
+  .col-wt  .tile{border-color:#e7b877;background:linear-gradient(180deg,#fffdf6,#fff5e6);}
+  .col-sr  .tile{border-color:#8fca8f;background:linear-gradient(180deg,#fffdf6,#eefaef);}
+  .col-czw .tile{border-color:#8bbfe0;background:linear-gradient(180deg,#fffdf6,#eaf5ff);}
+  .col-pt  .tile{border-color:#b79ad6;background:linear-gradient(180deg,#fffdf6,#f5eeff);}
+  .empty{background:rgba(251,243,223,.7);border-style:dashed;border-color:#d9c49a;min-height:34px;display:flex;align-items:center;justify-content:center;cursor:default;}
+  .empty .p{color:#c3ad82;}
+  .day-label{display:none;}
+
+  /* PODŚWIETLANIE */
+  .tile.dimmed,.lesson-info.dimmed{opacity:.25!important;filter:grayscale(70%);}
+  .tile.highlighted,.lesson-info.highlighted{transform:scale(1.06)!important;border-color:#ff9f43!important;box-shadow:0 0 14px rgba(255,159,67,.85)!important;z-index:5;}
+  @keyframes activePulse{
+    0%  {box-shadow:0 0 0 0 rgba(255,71,87,.7),0 4px 10px rgba(255,71,87,.3);}
+    50% {box-shadow:0 0 0 6px rgba(255,71,87,.2),0 6px 15px rgba(255,71,87,.5);}
+    100%{box-shadow:0 0 0 0 rgba(255,71,87,.7),0 4px 10px rgba(255,71,87,.3);}
+  }
+  .tile.active-lesson,.lesson-info.active-lesson{
+    border:2.5px solid #ff4757!important;
+    background:linear-gradient(180deg,#fff,#ffebeb)!important;
+    animation:activePulse 2s infinite;position:relative;z-index:4;
+  }
+  .tile.active-lesson .txt .p,.lesson-info.active-lesson .lesson-name{color:#2b1b17!important;}
+  .tile.active-lesson .txt .s,.lesson-info.active-lesson .lesson-room{color:#5a3d1e!important;}
+  .tile.active-lesson::after,.lesson-info.active-lesson::after{
+    content:"🔴 TERAZ";position:absolute;top:-9px;right:-4px;
+    background:#ff4757;color:#fff;font-size:8px;font-weight:800;
+    padding:1px 5px;border-radius:6px;line-height:1.2;
+    box-shadow:0 2px 4px rgba(0,0,0,.2);white-space:nowrap;
+  }
+
+  /* DARK MODE */
+  body.dark-mode{background:#181920;color:#e1e1e6;}
+  body.dark-mode .sheet{background:linear-gradient(180deg,#222430,#1a1b24);border-color:#3d3b4e;box-shadow:0 8px 30px rgba(0,0,0,.6);}
+  body.dark-mode header h1{color:#f0e6d2;text-shadow:1px 1px 0 #111,2px 2px 0 #3a3224;}
+  body.dark-mode header .wych{color:#c4b59d;}
+  body.dark-mode thead th{background:linear-gradient(180deg,#383a4d,#2b2d3c);color:#f0e6d2;border-color:#4a4d66;}
+  body.dark-mode td.nr .num,.dark-mode .lesson-time{background:linear-gradient(180deg,#2d2f3e,#232532);border-color:#44475a;color:#f0e6d2;}
+  body.dark-mode td.nr .num .time{color:#b0a8b9;}
+  body.dark-mode .tile,.dark-mode .lesson-info{background:#252836;border-color:#3d4155;}
+  body.dark-mode .tile .txt .p,.dark-mode .lesson-name{color:#f0e6d2;}
+  body.dark-mode .tile .txt .s,.dark-mode .lesson-room{color:#a49b8b;}
+  body.dark-mode .tile.active-lesson,.dark-mode .lesson-info.active-lesson{background:linear-gradient(180deg,#421d27,#2d131b)!important;border-color:#ff4757!important;}
+  body.dark-mode .status-banner{background:#252836;border-color:#3d4155;color:#f0e6d2;}
+  body.dark-mode .progress-container{background:rgba(255,255,255,.12);}
+  body.dark-mode .theme-toggle-btn{background:#e3c481;color:#222430;border-color:#f0dcae;}
+  body.dark-mode .edit-btn{background:#1a4a36;border-color:#2a6a50;color:#a0e0c0;}
+  body.dark-mode .admin-login-btn{color:#8a7a5a;border-color:#6a5a40;}
+  body.dark-mode .day-card{background:linear-gradient(180deg,#222430,#1a1b24);border-color:#3d3b4e;}
+  body.dark-mode .day-header{background:linear-gradient(180deg,#383a4d,#2b2d3c);color:#f0e6d2;border-bottom-color:#4a4d66;}
+  body.dark-mode .empty{background:rgba(40,42,58,.6);border-color:#44475a;}
+  body.dark-mode .empty .p,.dark-mode .lesson-empty{color:#72758e;}
+  body.dark-mode .art{opacity:.35;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .sheet{box-shadow:none;max-width:100%;}
+    .top-bar,.bottom-bar{display:none;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+
+  /* TABLET */
+  @media(max-width:900px){
+    .art{display:none;} .sheet{padding:16px 18px 20px;}
+    header h1{font-size:28px;} table{border-spacing:5px;}
+    thead th{font-size:13px;padding:6px 3px;}
+    td.nr .num{width:48px;min-height:42px;}
+    td.nr .num .no{font-size:14px;} td.nr .num .time{font-size:7px;}
+    .tile{min-height:56px;height:56px;padding:5px 3px;}
+    .tile .ico{font-size:16px;} .tile .txt .p{font-size:11px;} .tile .txt .s{font-size:9px;}
+  }
+
+  /* MOBILE */
+  .mobile-schedule{display:none;}
+  .mobile-tabs{display:none;}
+  @media(max-width:768px){
+    body{padding:8px;} .sheet{padding:12px 12px 16px;border-radius:14px;}
+    header h1{font-size:20px;margin-bottom:6px;}
+    header .wych{font-size:11px;margin-top:2px;}
+    table{display:none;} .mobile-schedule{display:block;}
+    .mobile-tabs{display:flex;gap:6px;margin-bottom:12px;justify-content:space-between;}
+    .day-card{display:none;} .day-card.active-tab{display:block;}
+  }
+  .tab-btn{
+    flex:1;padding:8px 4px;border-radius:10px;border:2px solid #d9b98a;
+    background:#fff6e2;color:#5a3d1e;font-family:inherit;font-weight:bold;
+    font-size:12.5px;cursor:pointer;text-align:center;transition:all .2s;
+    box-shadow:0 2px 4px rgba(120,90,40,.12);
+  }
+  .tab-btn.active{background:#5a3d1e;color:#fff6e2;border-color:#5a3d1e;box-shadow:0 3px 6px rgba(0,0,0,.2);transform:translateY(-1px);}
+  body.dark-mode .tab-btn{background:#252836;border-color:#3d4155;color:#f0e6d2;}
+  body.dark-mode .tab-btn.active{background:#e3c481;color:#222430;border-color:#f0dcae;}
+  @media(max-width:480px){
+    body{padding:4px;} .sheet{padding:8px 8px 12px;border-radius:10px;}
+    header h1{font-size:16px;margin-bottom:4px;} header .wych{font-size:10px;}
+    .status-banner{font-size:11.5px;padding:6px 10px;}
+    .tab-btn{font-size:11px;padding:6px 2px;}
+  }
+
+  /* MOBILE SCHEDULE */
+  .day-card{margin-bottom:14px;background:linear-gradient(180deg,#fbf5e6,#f2e7cf);border-radius:14px;border:2px solid #d8c191;overflow:hidden;box-shadow:0 3px 8px rgba(120,90,40,.15);}
+  .day-header{background:linear-gradient(180deg,#f0dcae,#e3c481);padding:10px 12px;font-weight:bold;font-size:15px;color:#5a3d1e;border-bottom:2px solid #c9a55f;text-align:center;}
+  .lessons-container{padding:10px;}
+  .lesson-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+  .lesson-time{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;width:56px;min-height:56px;height:56px;border-radius:10px;background:linear-gradient(180deg,#fff6e2,#f5e4bd);border:2px solid #d9b98a;padding:4px;font-size:11px;color:#6a4a24;box-shadow:0 2px 3px rgba(120,90,40,.18);text-align:center;}
+  .lesson-time .bell{font-size:14px;line-height:1.1;font-weight:700;}
+  .lesson-time .no{font-weight:900;font-size:14px;line-height:1;}
+  .lesson-time .time{font-size:7.5px;color:#8a6c40;margin-top:1px;white-space:nowrap;font-weight:700;}
+  .lesson-info{flex:1;display:flex;align-items:center;justify-content:center;min-height:56px;height:56px;border-radius:10px;padding:8px 10px;text-align:center;background:rgba(255,253,246,.96);border:2px solid #c9a55f;box-shadow:0 2px 4px rgba(120,90,40,.15);cursor:pointer;transition:transform .2s,opacity .25s,box-shadow .25s;}
+  .lesson-content{width:100%;display:flex;flex-direction:column;align-items:center;gap:3px;}
+  .lesson-icon{font-size:20px;line-height:1;}
+  .lesson-name{font-weight:bold;color:#4a3616;font-size:13px;line-height:1.2;}
+  .lesson-room{font-size:10px;color:#8a6c40;font-weight:700;}
+  .lesson-empty{color:#c3ad82;font-size:13px;font-style:italic;cursor:default;}
+  .day-pon .lesson-info{border-color:#e0a3b4;background:linear-gradient(180deg,#fffdf6,#ffeef3);}
+  .day-wt  .lesson-info{border-color:#e7b877;background:linear-gradient(180deg,#fffdf6,#fff5e6);}
+  .day-sr  .lesson-info{border-color:#8fca8f;background:linear-gradient(180deg,#fffdf6,#eefaef);}
+  .day-czw .lesson-info{border-color:#8bbfe0;background:linear-gradient(180deg,#fffdf6,#eaf5ff);}
+  .day-pt  .lesson-info{border-color:#b79ad6;background:linear-gradient(180deg,#fffdf6,#f5eeff);}
+  @media(max-width:480px){
+    .day-card{margin-bottom:12px;} .day-header{padding:8px 10px;font-size:13px;}
+    .lessons-container{padding:8px;} .lesson-row{gap:8px;margin-bottom:8px;}
+    .lesson-time{width:50px;min-height:50px;height:50px;font-size:10px;}
+    .lesson-time .bell{font-size:12px;} .lesson-time .no{font-size:12px;}
+    .lesson-info{min-height:50px;padding:6px 8px;height:50px;}
+    .lesson-icon{font-size:18px;} .lesson-name{font-size:12px;} .lesson-room{font-size:9px;}
+  }
+
+  /* MODAL LOGOWANIA */
+  .login-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1100;align-items:center;justify-content:center;padding:20px;}
+  .login-overlay.open{display:flex;}
+  .login-box{background:#fbf5e6;border:2px solid #d8c191;border-radius:16px;padding:28px 32px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:center;}
+  body.dark-mode .login-box{background:#222430;border-color:#3d3b4e;}
+  .login-box h3{margin:0 0 16px;color:#5a3d1e;font-size:17px;}
+  body.dark-mode .login-box h3{color:#f0e6d2;}
+  .login-box input[type=password]{width:100%;padding:10px 12px;border-radius:9px;border:2px solid #d0b880;font-size:15px;margin-bottom:14px;font-family:inherit;background:#fff;color:#3a2a12;}
+  body.dark-mode .login-box input[type=password]{background:#1a1c26;border-color:#44475a;color:#e0d8c8;}
+  .login-box input:focus{outline:none;border-color:#a0803a;box-shadow:0 0 0 2px rgba(160,128,58,.25);}
+  .login-error{color:#c0392b;font-size:12px;margin-bottom:10px;display:none;}
+  .btn-do-login{width:100%;background:#5a3d1e;color:#fff6e2;border:2px solid #7a5a34;padding:10px;border-radius:10px;font-size:14px;font-weight:bold;cursor:pointer;font-family:inherit;transition:all .15s;}
+  .btn-do-login:hover{background:#4a3010;}
+  .btn-login-cancel{background:none;border:none;color:#9a8060;cursor:pointer;font-size:12px;margin-top:10px;font-family:inherit;text-decoration:underline;}
+
+  /* MODAL EDYCJI */
+  .edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
+  .edit-overlay.open{display:flex;}
+  .edit-box{background:#fbf5e6;border:2px solid #d8c191;border-radius:18px;padding:24px 28px 28px;max-width:780px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.35);margin:auto;position:relative;}
+  body.dark-mode .edit-box{background:#222430;border-color:#3d3b4e;color:#e1e1e6;}
+  .edit-box h2{margin:0 0 18px;font-size:20px;color:#5a3d1e;text-align:center;}
+  body.dark-mode .edit-box h2{color:#f0e6d2;}
+  .edit-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#7a5a34;line-height:1;}
+  body.dark-mode .edit-close{color:#c4b59d;}
+  .edit-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+  .edit-tab-btn{flex:1;min-width:80px;padding:7px 6px;border-radius:8px;border:2px solid #d9b98a;background:#fff6e2;color:#5a3d1e;font-family:inherit;font-weight:bold;font-size:12px;cursor:pointer;transition:all .15s;}
+  .edit-tab-btn.active{background:#5a3d1e;color:#fff6e2;border-color:#5a3d1e;}
+  body.dark-mode .edit-tab-btn{background:#2a2c3a;border-color:#44475a;color:#e0d8c8;}
+  body.dark-mode .edit-tab-btn.active{background:#e3c481;color:#222430;border-color:#f0dcae;}
+  .edit-day-panel{display:none;} .edit-day-panel.active{display:block;}
+  .edit-lesson-row{display:grid;grid-template-columns:36px 1fr 90px 90px 36px;gap:8px;align-items:center;margin-bottom:10px;padding:8px 10px;border-radius:10px;background:rgba(255,253,246,.8);border:1px solid #e0d0a8;}
+  body.dark-mode .edit-lesson-row{background:#2a2c3a;border-color:#3d4155;}
+  .edit-lesson-row.is-empty{opacity:.55;}
+  .slot-label{text-align:center;font-weight:900;color:#8a6a40;font-size:14px;}
+  body.dark-mode .slot-label{color:#c4b59d;}
+  .edit-lesson-row input[type=text]{width:100%;padding:6px 8px;border-radius:7px;border:1.5px solid #d0b880;font-size:13px;background:#fff;color:#3a2a12;font-family:inherit;}
+  body.dark-mode .edit-lesson-row input[type=text]{background:#1a1c26;border-color:#44475a;color:#e0d8c8;}
+  .edit-lesson-row input[type=text]:focus{outline:none;border-color:#a0803a;}
+  .empty-toggle{width:28px;height:28px;border-radius:7px;border:2px solid #d0b880;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s;}
+  body.dark-mode .empty-toggle{background:#1a1c26;border-color:#44475a;}
+  .empty-toggle.toggled{background:#ffe0e8;border-color:#e0a0b0;}
+  .edit-hint{font-size:11.5px;color:#9a8060;margin-bottom:14px;text-align:center;}
+  body.dark-mode .edit-hint{color:#8a7a5a;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap;}
+  .btn-save{background:#2d6a4f;color:#fff;border:2px solid #3a8c68;padding:10px 24px;border-radius:11px;font-size:14px;font-weight:bold;cursor:pointer;font-family:inherit;transition:all .15s;}
+  .btn-save:hover{background:#1e4d38;transform:translateY(-1px);}
+  .btn-save:disabled{background:#7a9a8a;border-color:#7a9a8a;cursor:not-allowed;transform:none;}
+  .btn-cancel{background:#fff6e2;color:#5a3d1e;border:2px solid #d9b98a;padding:10px 20px;border-radius:11px;font-size:13px;font-weight:bold;cursor:pointer;font-family:inherit;transition:all .15s;}
+  body.dark-mode .btn-cancel{background:#2a2c3a;border-color:#44475a;color:#e0d8c8;}
+  .save-status{font-size:12px;font-weight:bold;padding:6px 12px;border-radius:8px;display:none;align-items:center;gap:6px;}
+  .save-status.ok{display:flex;background:#d4edda;color:#2d6a4f;border:1px solid #a8d5b8;}
+  .save-status.err{display:flex;background:#fce4e4;color:#8b1a1a;border:1px solid #f0b0b0;}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <svg class="art" viewBox="0 0 1180 780" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(10,8)">
+      <g transform="rotate(-38)"><rect x="0" y="0" width="130" height="17" rx="3" fill="#ff6b6b"/><rect x="0" y="0" width="26" height="17" fill="#ffd36b"/><polygon points="130,0 150,8.5 130,17" fill="#f4c07a"/><polygon points="141,4 150,8.5 141,13" fill="#5a3d1e"/></g>
+      <g transform="rotate(-24) translate(-2,4)"><rect x="0" y="0" width="122" height="15" rx="3" fill="#4db6ff"/><rect x="0" y="0" width="22" height="15" fill="#bfe6ff"/><polygon points="122,0 140,7.5 122,15" fill="#f4c07a"/><polygon points="132,4 140,7.5 132,11" fill="#5a3d1e"/></g>
+      <g transform="rotate(-10) translate(-4,10)"><rect x="0" y="0" width="118" height="15" rx="3" fill="#5ecb7a"/><rect x="0" y="0" width="22" height="15" fill="#c6efd0"/><polygon points="118,0 136,7.5 118,15" fill="#f4c07a"/><polygon points="128,4 136,7.5 128,11" fill="#5a3d1e"/></g>
+      <g transform="rotate(3) translate(-4,16)"><rect x="0" y="0" width="112" height="14" rx="3" fill="#b98bff"/><rect x="0" y="0" width="20" height="14" fill="#e0ccff"/><polygon points="112,0 129,7 112,14" fill="#f4c07a"/><polygon points="122,4 129,7 122,10" fill="#5a3d1e"/></g>
+    </g>
+    <g transform="translate(1010,690)">
+      <g transform="rotate(150)"><rect x="0" y="0" width="120" height="15" rx="3" fill="#ffcf3f"/><rect x="0" y="0" width="16" height="15" fill="#ff9ec2"/><polygon points="120,0 138,7.5 120,15" fill="#f4c07a"/><polygon points="130,4 138,7.5 130,11" fill="#3a2a12"/></g>
+      <g transform="rotate(164) translate(0,2)"><rect x="0" y="0" width="112" height="14" rx="3" fill="#ff8a5c"/><rect x="0" y="0" width="15" height="14" fill="#ffd0b8"/><polygon points="112,0 129,7 112,14" fill="#f4c07a"/><polygon points="121,4 129,7 121,10" fill="#3a2a12"/></g>
+    </g>
+    <g transform="translate(300,742) rotate(-8)"><rect x="0" y="0" width="42" height="22" rx="4" fill="#ff9ec2" stroke="#e06a97" stroke-width="1.5"/><rect x="0" y="0" width="14" height="22" rx="4" fill="#f6f0ff" stroke="#e06a97" stroke-width="1.5"/></g>
+    <g transform="translate(1140,180) rotate(20)" fill="none" stroke="#8aa0b5" stroke-width="3"><rect x="0" y="0" width="18" height="46" rx="9"/><rect x="4" y="6" width="10" height="30" rx="5"/></g>
+    <g transform="translate(6,560) rotate(74)"><rect x="0" y="0" width="200" height="30" rx="4" fill="#ffe08a" stroke="#d9a441" stroke-width="2"/><g stroke="#d9a441" stroke-width="2"><line x1="20" y1="0" x2="20" y2="12"/><line x1="40" y1="0" x2="40" y2="8"/><line x1="60" y1="0" x2="60" y2="12"/><line x1="80" y1="0" x2="80" y2="8"/><line x1="100" y1="0" x2="100" y2="12"/><line x1="120" y1="0" x2="120" y2="8"/><line x1="140" y1="0" x2="140" y2="12"/><line x1="160" y1="0" x2="160" y2="8"/><line x1="180" y1="0" x2="180" y2="12"/></g></g>
+    <g transform="translate(1058,70)"><rect x="0" y="30" width="90" height="16" rx="2" fill="#e05a5a"/><rect x="6" y="16" width="90" height="16" rx="2" fill="#4db6ff"/><rect x="2" y="2" width="90" height="16" rx="2" fill="#5ecb7a"/><circle cx="86" cy="-4" r="7" fill="#e05a5a"/><rect x="83" y="-14" width="3" height="8" fill="#5a3d1e"/></g>
+    <g transform="translate(1070,620)"><circle cx="45" cy="45" r="42" fill="#7ec8f0" stroke="#3a7ca5" stroke-width="3"/><path d="M20 30 q25 -10 50 6 q-15 18 -40 12z" fill="#5ecb7a"/><path d="M35 60 q20 8 40 -4 q-4 16 -22 20z" fill="#5ecb7a"/><ellipse cx="45" cy="45" rx="42" ry="16" fill="none" stroke="#3a7ca5" stroke-width="1.5" opacity=".5"/><line x1="45" y1="3" x2="45" y2="87" stroke="#3a7ca5" stroke-width="1.5" opacity=".5"/><rect x="40" y="88" width="10" height="10" fill="#8a5a2a"/></g>
+    <g transform="translate(560,724)"><path d="M20 6 C8 -2 -6 8 4 26 C10 40 18 44 20 44 C22 44 30 40 36 26 C46 8 32 -2 20 6 Z" fill="#e0403f"/><rect x="19" y="-4" width="3" height="10" fill="#7a4a1e"/><path d="M22 0 q10 -4 12 4 q-8 2 -12 -4z" fill="#5ecb7a"/></g>
+  </svg>
+
+  <div class="content">
+    <div class="top-bar">
+      <div class="status-banner">
+        <div id="statusText">Ładowanie statusu lekcji...</div>
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+    </div>
+
+    <header>
+      <h1>PLAN LEKCJI KLASY Va</h1>
+      <div class="wych">Wychowawca: mgr Monika Olejniczak</div>
+    </header>
+
+    <div class="mobile-tabs" id="mobileTabs"></div>
+
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th class="timo">Godz.</th>
+          <th>Poniedziałek</th><th>Wtorek</th><th>Środa</th><th>Czwartek</th><th>Piątek</th>
+        </tr>
+      </thead>
+      <tbody id="desktopTbody"></tbody>
+    </table>
+
+    <div class="mobile-schedule" id="mobileSchedule"></div>
+
+    <div class="bottom-bar">
+      <button id="themeToggle" class="theme-toggle-btn">🌙 Tryb ciemny</button>
+      <button id="editBtn" class="edit-btn">✏️ Edytuj plan</button>
+      <button id="adminLogoutBtn" class="admin-logout-btn">🔒 Wyloguj</button>
+      <button id="adminLoginBtn" class="admin-login-btn">🔑 Admin</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL LOGOWANIA -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h3>🔑 Panel administratora</h3>
+    <input type="password" id="adminPasswordInput" placeholder="Hasło administratora" autocomplete="current-password"/>
+    <div class="login-error" id="loginError">Błędne hasło. Spróbuj ponownie.</div>
+    <button class="btn-do-login" id="btnDoLogin">Zaloguj</button><br>
+    <button class="btn-login-cancel" id="btnLoginCancel">Anuluj</button>
+  </div>
+</div>
+
+<!-- MODAL EDYCJI -->
+<div class="edit-overlay" id="editOverlay">
+  <div class="edit-box">
+    <button class="edit-close" id="editClose">✕</button>
+    <h2>✏️ Edycja planu lekcji</h2>
+    <p class="edit-hint">Kliknij 🚫 aby oznaczyć lekcję jako okienko. Emoji wpisz bezpośrednio w pole.</p>
+    <div class="edit-tabs" id="editTabs"></div>
+    <div id="editDayPanels"></div>
+    <div class="modal-actions">
+      <div class="save-status" id="saveStatus"></div>
+      <button class="btn-cancel" id="btnCancel">Anuluj</button>
+      <button class="btn-save" id="btnSave">💾 Zapisz w chmurze</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+  /* ===== FIREBASE ===== */
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcf3E50EtPo1kUWs2ybUT8mWzVtWqlSqY",
+    authDomain: "plan-e5ce7.firebaseapp.com",
+    databaseURL: "https://plan-e5ce7-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "plan-e5ce7",
+    storageBucket: "plan-e5ce7.firebasestorage.app",
+    messagingSenderId: "756360816596",
+    appId: "1:756360816596:web:0fb318d682b0af88fcd841",
+    measurementId: "G-K3W393N2PF"
+  };
+  const db = getDatabase(initializeApp(firebaseConfig));
+
+  /* ===== HASŁO (SHA-256 z "Va2025!") ===== */
+  const ADMIN_HASH = '9b9819c6a8980b8f602b4ce44561545564acfe44fd5ff6623bedf2f31de277e9';
+
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  /* ===== DANE ===== */
+  const DAY_META = [
+    { dayNum:1, mobileClass:'day-pon', colClass:'col-pon', name:'Poniedziałek', shortName:'Pon' },
+    { dayNum:2, mobileClass:'day-wt',  colClass:'col-wt',  name:'Wtorek',       shortName:'Wt'  },
+    { dayNum:3, mobileClass:'day-sr',  colClass:'col-sr',  name:'Środa',        shortName:'Śr'  },
+    { dayNum:4, mobileClass:'day-czw', colClass:'col-czw', name:'Czwartek',     shortName:'Czw' },
+    { dayNum:5, mobileClass:'day-pt',  colClass:'col-pt',  name:'Piątek',       shortName:'Pt'  }
+  ];
+  const DEFAULT_LESSONS = [
+    [
+      { icon:'🔬', name:'matematyka',   room:'243'      },
+      { icon:'📚', name:'j. polski',    room:'125'      },
+      { icon:'📚', name:'j. polski',    room:'125'      },
+      { icon:'⚙️', name:'technika',     room:'103'      },
+      { icon:'⚽', name:'wf',           room:'s. gimn.' },
+      { empty:true }
+    ],[
+      { empty:true },
+      { icon:'💬', name:'zaj. z wych.', room:'243'      },
+      { icon:'🌐', name:'j. ang',       room:'131'      },
+      { icon:'📚', name:'j. polski',    room:'125'      },
+      { icon:'🎨', name:'plastyka',     room:'125'      },
+      { icon:'❤️', name:'edu. zdrow.',  room:'125'      }
+    ],[
+      { icon:'🔬', name:'matematyka',   room:'243'      },
+      { icon:'🏃', name:'wf',           room:'s. gimn.' },
+      { icon:'🧪', name:'biologia',     room:'203'      },
+      { icon:'🏛️', name:'historia',    room:'221'      },
+      { icon:'🌐', name:'j. ang',       room:'131'      },
+      { icon:'💻', name:'informatyka',  room:'103'      }
+    ],[
+      { icon:'📚', name:'j. polski',    room:'125'      },
+      { icon:'🌍', name:'geografia',    room:'203'      },
+      { icon:'🔬', name:'matematyka',   room:'243'      },
+      { icon:'🏊', name:'basen',        room:'pływ.'    },
+      { icon:'🏛️', name:'historia',    room:'221'      },
+      { empty:true }
+    ],[
+      { icon:'🔬', name:'matematyka',   room:'243'      },
+      { icon:'📚', name:'j. polski',    room:'125'      },
+      { icon:'🏃', name:'wf',           room:'s. gimn.' },
+      { icon:'🌐', name:'j. ang',       room:'203'      },
+      { icon:'🎵', name:'muzyka',       room:'50'       },
+      { icon:'🙏', name:'religia',      room:'141'      }
+    ]
+  ];
+  const TIMES = [
+    { num:'1', time:'8.00–8.45',   dTime:'8:00–8:45',   s:480,  e:525  },
+    { num:'2', time:'8.55–9.40',   dTime:'8:55–9:40',   s:535,  e:580  },
+    { num:'3', time:'9.50–10.35',  dTime:'9:50–10:35',  s:590,  e:635  },
+    { num:'4', time:'10.45–11.30', dTime:'10:45–11:30', s:645,  e:690  },
+    { num:'5', time:'11.45–12.30', dTime:'11:45–12:30', s:705,  e:750  },
+    { num:'6', time:'12.50–13.35', dTime:'12:50–13:35', s:770,  e:815  }
+  ];
+
+  let daysData = DAY_META.map((m,i) => ({ ...m, lessons: DEFAULT_LESSONS[i].map(l=>({...l})) }));
+  let isAdmin = false;
+  let activeSubject = null;
+
+  /* ===== FIREBASE ODCZYT / ZAPIS ===== */
+  async function loadFromFirebase() {
+    try {
+      const snap = await get(ref(db, 'schedule/days'));
+      if (snap.exists()) {
+        const fb = snap.val();
+        daysData = DAY_META.map((m,i) => ({
+          ...m,
+          lessons: (fb[i] && fb[i].lessons) ? fb[i].lessons : DEFAULT_LESSONS[i].map(l=>({...l}))
+        }));
+      }
+    } catch(e) { console.warn('Firebase load error:', e.message); }
+  }
+
+  async function saveToFirebase(data) {
+    await set(ref(db, 'schedule/days'), data.map(d => ({ lessons: d.lessons })));
+  }
+
+  /* ===== CZAS PL ===== */
+  function getWarsawTime() {
+    const parts = {};
+    new Intl.DateTimeFormat('en-US',{timeZone:'Europe/Warsaw',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()).forEach(p=>{ parts[p.type]=parseInt(p.value,10); });
+    const h = parts.hour===24?0:parts.hour;
+    return { day: new Date(parts.year,parts.month-1,parts.day,h,parts.minute).getDay(), mins: h*60+parts.minute };
+  }
+
+  /* ===== RENDER DESKTOP ===== */
+  function renderDesktop() {
+    const tbody = document.getElementById('desktopTbody');
+    tbody.innerHTML = '';
+    TIMES.forEach((slot,li) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td class="nr"><span class="num"><span class="bell"><strong>🔔</strong></span><span class="no"><strong>${slot.num}</strong></span><span class="time"><strong>${slot.time}</strong></span></span></td>`;
+      daysData.forEach(day => {
+        const td = document.createElement('td');
+        td.className = `cell ${day.colClass}`;
+        const l = day.lessons[li];
+        if (!l || l.empty) {
+          td.innerHTML = `<div class="tile empty"><span class="txt"><span class="p">&mdash;</span></span></div>`;
+        } else {
+          td.innerHTML = `<div class="tile" data-subject="${l.name.toLowerCase().trim()}"><span class="ico">${l.icon}</span><span class="txt"><span class="p">${l.name}</span><span class="s">${l.room}</span></span></div>`;
+        }
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
+
+  /* ===== RENDER MOBILE ===== */
+  function renderMobile() {
+    const wrap = document.getElementById('mobileSchedule');
+    wrap.innerHTML = '';
+    daysData.forEach(day => {
+      const card = document.createElement('div');
+      card.className = `day-card ${day.mobileClass}`;
+      card.dataset.day = day.dayNum;
+      card.innerHTML = `<div class="day-header">${day.name}</div>`;
+      const lc = document.createElement('div');
+      lc.className = 'lessons-container';
+      day.lessons.forEach((l,li) => {
+        const t = TIMES[li];
+        const row = document.createElement('div');
+        row.className = 'lesson-row';
+        row.dataset.lesson = li;
+        const ti = document.createElement('div');
+        ti.className = 'lesson-time';
+        ti.innerHTML = `<span class="bell"><strong>🔔</strong></span><span class="no"><strong>${t.num}</strong></span><span class="time"><strong>${t.dTime}</strong></span>`;
+        const info = document.createElement('div');
+        info.className = 'lesson-info';
+        if (!l || l.empty) {
+          info.innerHTML = '<div class="lesson-empty">—</div>';
+        } else {
+          info.dataset.subject = l.name.toLowerCase().trim();
+          info.innerHTML = `<div class="lesson-content"><span class="lesson-icon">${l.icon}</span><div class="lesson-name">${l.name}</div><div class="lesson-room">${l.room}</div></div>`;
+        }
+        row.appendChild(ti); row.appendChild(info);
+        lc.appendChild(row);
+      });
+      card.appendChild(lc);
+      wrap.appendChild(card);
+    });
+    renderTabs();
+  }
+
+  /* ===== TABS MOBILE ===== */
+  function renderTabs() {
+    const { day, mins } = getWarsawTime();
+    let init = (day<1||day>5) ? 1 : (mins>=840 ? (day<5?day+1:1) : day);
+    const tc = document.getElementById('mobileTabs');
+    tc.innerHTML = '';
+    daysData.forEach(d => {
+      const b = document.createElement('button');
+      b.className = `tab-btn${d.dayNum===init?' active':''}`;
+      b.textContent = d.shortName;
+      b.onclick = () => switchTab(d.dayNum);
+      tc.appendChild(b);
+    });
+    switchTab(init);
+  }
+
+  function switchTab(n) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active',i+1===n));
+    document.querySelectorAll('.day-card').forEach(c => c.classList.toggle('active-tab',+c.dataset.day===n));
+  }
+
+  /* ===== LIVE STATUS ===== */
+  function updateStatus() {
+    document.querySelectorAll('.active-lesson').forEach(e=>e.classList.remove('active-lesson'));
+    const { day, mins } = getWarsawTime();
+    const txt = document.getElementById('statusText');
+    const pc = document.getElementById('progressContainer');
+    const pb = document.getElementById('progressBar');
+
+    if (day<1||day>5) { txt.innerHTML='🏖️ <strong>Weekend!</strong> Odpoczywaj.'; pc.style.display='none'; applyHighlight(); return; }
+    const today = daysData.find(d=>d.dayNum===day);
+    if (!today) return;
+
+    if (mins < TIMES[0].s) { txt.innerHTML=`🌅 Pierwsza lekcja za <strong>${TIMES[0].s-mins} min</strong>.`; pc.style.display='none'; applyHighlight(); return; }
+    if (mins > TIMES[TIMES.length-1].e) { txt.innerHTML='🎉 <strong>Lekcje zakończone!</strong> Miłego popołudnia.'; pc.style.display='none'; applyHighlight(); return; }
+
+    let li=-1, isBreak=false, ni=-1;
+    for (let i=0;i<TIMES.length;i++) {
+      if (mins>=TIMES[i].s&&mins<=TIMES[i].e) { li=i; break; }
+      if (i<TIMES.length-1&&mins>TIMES[i].e&&mins<TIMES[i+1].s) { isBreak=true; ni=i+1; break; }
+    }
+
+    if (li!==-1) {
+      const l=today.lessons[li], sl=TIMES[li];
+      const pct=((mins-sl.s)/(sl.e-sl.s))*100;
+      pc.style.display='block'; pb.style.width=pct.toFixed(1)+'%'; pb.style.background='linear-gradient(90deg,#ff4757,#ff6b81)';
+      txt.innerHTML = l&&!l.empty ? `🔴 Trwa: <strong>${l.name}</strong> (s.${l.room}) | zostało <strong>${sl.e-mins} min</strong>` : `🔴 Okienko | zostało <strong>${sl.e-mins} min</strong>`;
+      const row = document.querySelectorAll('#desktopTbody tr')[li];
+      if (row) { const tile=row.children[day]?.querySelector('.tile'); if(tile&&!tile.classList.contains('empty')) tile.classList.add('active-lesson'); }
+      const mc = document.querySelector(`.day-card[data-day="${day}"]`);
+      if (mc) { const inf=mc.querySelectorAll('.lesson-row')[li]?.querySelector('.lesson-info'); if(inf&&!inf.querySelector('.lesson-empty')) inf.classList.add('active-lesson'); }
+    } else if (isBreak&&ni!==-1) {
+      const nl=today.lessons[ni], pct=((mins-TIMES[ni-1].e)/(TIMES[ni].s-TIMES[ni-1].e))*100;
+      pc.style.display='block'; pb.style.width=pct.toFixed(1)+'%'; pb.style.background='linear-gradient(90deg,#2ed573,#7bed9f)';
+      txt.innerHTML = nl&&!nl.empty ? `☕ Przerwa! Następna: <strong>${nl.name}</strong> za <strong>${TIMES[ni].s-mins} min</strong>` : `☕ Przerwa! Za <strong>${TIMES[ni].s-mins} min</strong>.`;
+    }
+    applyHighlight();
+  }
+
+  /* ===== PODŚWIETLANIE ===== */
+  document.addEventListener('click', e => {
+    const t = e.target.closest('.tile,.lesson-info');
+    if (!t||t.classList.contains('empty')||t.querySelector('.lesson-empty')) return;
+    const s = t.dataset.subject;
+    if (!s) return;
+    activeSubject = activeSubject===s ? null : s;
+    applyHighlight();
+  });
+
+  function applyHighlight() {
+    document.querySelectorAll('.tile,.lesson-info').forEach(t => {
+      const empty = t.classList.contains('empty')||!!t.querySelector('.lesson-empty');
+      if (!activeSubject) { t.classList.remove('dimmed','highlighted'); return; }
+      if (!empty&&t.dataset.subject===activeSubject) { t.classList.add('highlighted'); t.classList.remove('dimmed'); }
+      else { t.classList.add('dimmed'); t.classList.remove('highlighted'); }
+    });
+  }
+
+  /* ===== DARK MODE ===== */
+  function setupTheme() {
+    const btn = document.getElementById('themeToggle');
+    if (localStorage.getItem('schedule_theme')==='dark') { document.body.classList.add('dark-mode'); btn.textContent='☀️ Tryb jasny'; }
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const d = document.body.classList.contains('dark-mode');
+      btn.textContent = d ? '☀️ Tryb jasny' : '🌙 Tryb ciemny';
+      localStorage.setItem('schedule_theme', d?'dark':'light');
+    });
+  }
+
+  /* ===== ADMIN LOGIN ===== */
+  function setupLogin() {
+    const overlay = document.getElementById('loginOverlay');
+    const input   = document.getElementById('adminPasswordInput');
+    const errMsg  = document.getElementById('loginError');
+
+    document.getElementById('adminLoginBtn').addEventListener('click', () => {
+      input.value=''; errMsg.style.display='none';
+      overlay.classList.add('open');
+      setTimeout(()=>input.focus(),100);
+    });
+
+    document.getElementById('btnLoginCancel').addEventListener('click', ()=>overlay.classList.remove('open'));
+    overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.classList.remove('open'); });
+    input.addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('btnDoLogin').click(); });
+
+    document.getElementById('btnDoLogin').addEventListener('click', async () => {
+      const h = await sha256(input.value);
+      if (h === ADMIN_HASH) {
+        isAdmin = true;
+        overlay.classList.remove('open');
+        document.getElementById('adminLoginBtn').style.display  = 'none';
+        document.getElementById('editBtn').style.display        = 'inline-block';
+        document.getElementById('adminLogoutBtn').style.display = 'inline-block';
+      } else {
+        errMsg.style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    });
+
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      isAdmin = false;
+      document.getElementById('adminLoginBtn').style.display  = '';
+      document.getElementById('editBtn').style.display        = 'none';
+      document.getElementById('adminLogoutBtn').style.display = 'none';
+    });
+  }
+
+  /* ===== MODAL EDYCJI ===== */
+  function setupEdit() {
+    const overlay    = document.getElementById('editOverlay');
+    const saveStatus = document.getElementById('saveStatus');
+    const btnSave    = document.getElementById('btnSave');
+
+    const close = () => overlay.classList.remove('open');
+    document.getElementById('editClose').addEventListener('click', close);
+    document.getElementById('btnCancel').addEventListener('click', close);
+    overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+
+    document.getElementById('editBtn').addEventListener('click', () => {
+      if (!isAdmin) return;
+      buildEditForm();
+      saveStatus.className='save-status'; saveStatus.style.display='none';
+      btnSave.disabled=false; btnSave.textContent='💾 Zapisz w chmurze';
+      overlay.classList.add('open');
+    });
+
+    btnSave.addEventListener('click', async () => {
+      btnSave.disabled=true; btnSave.textContent='⏳ Zapisuję...';
+      saveStatus.className='save-status'; saveStatus.style.display='none';
+      try {
+        const nd = collectForm();
+        await saveToFirebase(nd);
+        daysData = nd;
+        renderDesktop(); renderMobile(); updateStatus();
+        saveStatus.className='save-status ok'; saveStatus.innerHTML='✅ Zapisano pomyślnie!';
+        btnSave.textContent='✅ Zapisano';
+        setTimeout(()=>{ close(); btnSave.disabled=false; btnSave.textContent='💾 Zapisz w chmurze'; },1500);
+      } catch(err) {
+        saveStatus.className='save-status err'; saveStatus.innerHTML=`❌ Błąd: ${err.message}`;
+        btnSave.disabled=false; btnSave.textContent='💾 Zapisz w chmurze';
+      }
+    });
+  }
+
+  function buildEditForm() {
+    const tabs   = document.getElementById('editTabs');
+    const panels = document.getElementById('editDayPanels');
+    tabs.innerHTML=''; panels.innerHTML='';
+    daysData.forEach((day,di) => {
+      const tab = document.createElement('button');
+      tab.className=`edit-tab-btn${di===0?' active':''}`;
+      tab.textContent=day.name;
+      tab.addEventListener('click',()=>{
+        document.querySelectorAll('.edit-tab-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.edit-day-panel').forEach(p=>p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`ep-${di}`).classList.add('active');
+      });
+      tabs.appendChild(tab);
+
+      const panel = document.createElement('div');
+      panel.className=`edit-day-panel${di===0?' active':''}`;
+      panel.id=`ep-${di}`;
+      day.lessons.forEach((l,li)=>{
+        const isEmpty=!l||l.empty;
+        const row=document.createElement('div');
+        row.className=`edit-lesson-row${isEmpty?' is-empty':''}`;
+        row.dataset.di=di; row.dataset.li=li;
+        row.innerHTML=`
+          <div class="slot-label">${TIMES[li].num}</div>
+          <input type="text" class="ei" placeholder="🔔" value="${isEmpty?'':(l.icon||'')}" ${isEmpty?'disabled':''}>
+          <input type="text" class="en" placeholder="Przedmiot" value="${isEmpty?'':(l.name||'')}" ${isEmpty?'disabled':''}>
+          <input type="text" class="er" placeholder="Sala" value="${isEmpty?'':(l.room||'')}" ${isEmpty?'disabled':''}>
+          <button class="empty-toggle${isEmpty?' toggled':''}" title="Okienko">🚫</button>`;
+        row.querySelector('.empty-toggle').addEventListener('click',function(){
+          const now=this.classList.toggle('toggled');
+          row.classList.toggle('is-empty',now);
+          row.querySelector('.ei').disabled=now;
+          row.querySelector('.en').disabled=now;
+          row.querySelector('.er').disabled=now;
+        });
+        panel.appendChild(row);
+      });
+      panels.appendChild(panel);
+    });
+  }
+
+  function collectForm() {
+    const nd = daysData.map(d=>({ ...d, lessons:d.lessons.map(l=>({...l})) }));
+    document.querySelectorAll('.edit-lesson-row').forEach(row=>{
+      const di=+row.dataset.di, li=+row.dataset.li;
+      const empty=row.querySelector('.empty-toggle').classList.contains('toggled');
+      nd[di].lessons[li] = empty ? { empty:true } : {
+        icon: row.querySelector('.ei').value.trim()||'📖',
+        name: row.querySelector('.en').value.trim()||'—',
+        room: row.querySelector('.er').value.trim()||'—'
+      };
+    });
+    return nd;
+  }
+
+  /* ===== START ===== */
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadFromFirebase();
+    renderDesktop();
+    renderMobile();
+    setupTheme();
+    setupLogin();
+    setupEdit();
+    updateStatus();
+    setInterval(updateStatus, 10000);
+  });
+</script>
+</body>
+</html>
