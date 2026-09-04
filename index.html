@@ -1194,26 +1194,25 @@
     }
 
     function setupEditModal() {
-      const editBtn = document.getElementById('editBtn');
-      const overlay = document.getElementById('editModalOverlay');
+      const editModalOverlay = document.getElementById('editModalOverlay');
       const modalClose = document.getElementById('modalClose');
       const btnCancel = document.getElementById('btnCancel');
       const btnSave = document.getElementById('btnSave');
       const saveStatus = document.getElementById('saveStatus');
 
-      editBtn.addEventListener('click', () => {
+      document.getElementById('editBtn').addEventListener('click', () => {
         if (!isAdminLoggedIn) return;
         buildEditModal();
         saveStatus.className = 'save-status';
         saveStatus.style.display = 'none';
         btnSave.disabled = false;
-        overlay.classList.add('open');
+        editModalOverlay.classList.add('open');
       });
 
-      const closeModal = () => overlay.classList.remove('open');
+      const closeModal = () => editModalOverlay.classList.remove('open');
       modalClose.addEventListener('click', closeModal);
       btnCancel.addEventListener('click', closeModal);
-      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+      editModalOverlay.addEventListener('click', (e) => { if (e.target === editModalOverlay) closeModal(); });
 
       btnSave.addEventListener('click', async () => {
         btnSave.disabled = true;
